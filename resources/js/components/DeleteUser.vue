@@ -59,14 +59,22 @@ const closeModal = () => {
                         <DialogHeader class="space-y-3">
                             <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
                             <DialogDescription>
-                                Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your
-                                password to confirm you would like to permanently delete your account.
+                                Once your account is deleted, all of its resources and data will also be permanently
+                                deleted. Please enter your password to confirm you would like to permanently delete your
+                                account.
                             </DialogDescription>
                         </DialogHeader>
 
                         <div class="grid gap-2">
                             <Label for="password" class="sr-only">Password</Label>
-                            <Input id="password" type="password" name="password" ref="passwordInput" v-model="form.password" placeholder="Password" />
+                            <Input
+                                id="password"
+                                type="password"
+                                name="password"
+                                ref="passwordInput"
+                                v-model="form.password"
+                                placeholder="Password"
+                            />
                             <InputError :message="form.errors.password" />
                         </div>
 
@@ -75,7 +83,9 @@ const closeModal = () => {
                                 <Button variant="secondary" @click="closeModal"> Cancel </Button>
                             </DialogClose>
 
-                            <Button type="submit" variant="destructive" :disabled="form.processing"> Delete account </Button>
+                            <Button type="submit" variant="destructive" :disabled="form.processing">
+                                Delete account
+                            </Button>
                         </DialogFooter>
                     </form>
                 </DialogContent>
