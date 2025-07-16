@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use App\Enums\Status;
 use App\Models\User;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -26,7 +25,7 @@ final class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'status_id' => Status::ACTIVE
+            'status_id' => Status::ACTIVE,
         ]);
     }
 }

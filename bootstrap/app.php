@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleAppearance::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
-            EnsureUserStatusIsActive::class
+            EnsureUserStatusIsActive::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

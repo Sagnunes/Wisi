@@ -36,6 +36,16 @@ final class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function getIsActiveAttribute(): bool
+    {
+        return $this->status && $this->status_id === \App\Enums\Status::ACTIVE->value;
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -47,14 +57,5 @@ final class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(Status::class);
-    }
-
-    public function getIsActiveAttribute(): bool
-    {
-        return $this->status && $this->status_id === \App\Enums\Status::ACTIVE->value;
     }
 }

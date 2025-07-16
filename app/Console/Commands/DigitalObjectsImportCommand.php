@@ -57,7 +57,7 @@ final class DigitalObjectsImportCommand extends Command
                 'image_name' => $row[4],
                 'inventory_number' => $row[5],
                 'website_link' => $row[6],
-                'status_id' => $row[7] == 0 ? Status::NO_ASSOCIATION : ($row == 1 ? Status::UNPUBLISHED : Status::PUBLISHED),
+                'status_id' => $row[7] === 0 ? Status::NO_ASSOCIATION : ($row === 1 ? Status::UNPUBLISHED : Status::PUBLISHED),
             ]);
             foreach (ArrayHelper::chunkFile($digitalObjects, $generateRow, 1000) as $chunk) {
                 DigitalObject::insert($chunk);

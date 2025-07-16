@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->foreignIdFor(App\Models\Status::class)->default(App\Enums\Status::PENDING)->after('email')->constrained()->cascadeOnUpdate()->nullOnDelete();
+        Schema::create('permissions', function (Blueprint $table): void {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('description')->nullable();
         });
     }
 
@@ -23,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
-            $table->dropForeign(['status_id']);
-        });
+        Schema::dropIfExists('permissions');
     }
 };

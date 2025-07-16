@@ -36,32 +36,6 @@ final class LoginRequest extends FormRequest
         ];
     }
 
-    /*
-     * Validate the user's status.
-     *
-     * @param User $user
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     *
-     '
-     */
-
-    private function validateUserStatus(User $user): void
-    {
-        $messages = [
-            Status::PENDING->value => 'Conta não ativa. Contacte o  administrador.',
-            Status::BLOCKED->value => 'Conta suspensa. Contacte o administrador.',
-        ];
-
-        if (isset($messages[$user->status_id])) {
-            RateLimiter::hit($this->throttleKey());
-            throw ValidationException::withMessages([
-                'email' => __($messages[$user->status_id]),
-            ]);
-        }
-    }
-
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -117,5 +91,31 @@ final class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+    }
+
+    /*
+     * Validate the user's status.
+     *
+     * @param User $user
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     *
+     '
+     */
+
+    private function validateUserStatus(User $user): void
+    {
+        $messages = [
+            Status::PENDING->value => 'Conta não ativa. Contacte o  administrador.',
+            Status::BLOCKED->value => 'Conta suspensa. Contacte o administrador.',
+        ];
+
+        if (isset($messages[$user->status_id])) {
+            RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'email' => __($messages[$user->status_id]),
+            ]);
+        }
     }
 }

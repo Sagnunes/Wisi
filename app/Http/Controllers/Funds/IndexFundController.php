@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Funds;
 
 use App\Http\Controllers\Controller;
-use App\Services\FundService;
+use App\Services\Fund\FundService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

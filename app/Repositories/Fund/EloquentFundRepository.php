@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Fund;
 
-use App\Contracts\FundRepositoryInterface;
+use App\Contracts\Fund\FundRepositoryInterface;
 use App\Models\DigitalObject;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,23 +23,16 @@ final readonly class EloquentFundRepository implements FundRepositoryInterface
         'acronym',
     ];
 
-    public function __construct(private Fund $model)
-    {
-    }
+    public function __construct(private Fund $model) {}
 
     public function all(): Collection
     {
         return $this->baseQuery()->get();
     }
 
-    private function baseQuery(): Builder
-    {
-        return $this->model->query()->select(self::FUND_COLUMNS)->orderBy('acronym');
-    }
-
     public function findAllWithPreviewDigitalObject(): Collection
     {
-        return Cache::remember('funds', 60, fn() => $this->baseQuery()->with(['digitalObjects' => function ($query): void {
+        return Cache::remember('funds', 60, fn () => $this->baseQuery()->with(['digitalObjects' => function ($query): void {
             $query->select('fund_id', 'image_thumb', 'image_name', 'id')
                 ->whereNotNull('image_thumb')
                 ->limit(1);
@@ -48,9 +41,9 @@ final readonly class EloquentFundRepository implements FundRepositoryInterface
 
     public function findWithDigitalObject(Fund $fund, ?string $search = null): LengthAwarePaginator
     {
-       return  DigitalObject::with('fund', 'status')
+        return DigitalObject::with('fund', 'status')
             ->where('fund_id', $fund->id)
-            ->where(function ($query) use ($search) {
+            ->where(function ($query) use ($search): void {
                 $query->where('title', 'LIKE', "%{$search}%")
                     ->orWhere('inventory_number', 'LIKE', "%{$search}%");
             })
@@ -58,5 +51,10 @@ final readonly class EloquentFundRepository implements FundRepositoryInterface
             ->orderByRaw('CAST(SUBSTR(inventory_number, INSTR(inventory_number, "/") + 1) AS INTEGER)')
             ->paginate()
             ->withQueryString();
+    }
+
+    private function baseQuery(): Builder
+    {
+        return $this->model->query()->select(self::FUND_COLUMNS)->orderBy('acronym');
     }
 }

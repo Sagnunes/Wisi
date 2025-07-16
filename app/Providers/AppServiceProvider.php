@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Contracts\FundRepositoryInterface;
-use App\Repositories\EloquentFundRepository;
+use App\Contracts\Fund\FundRepositoryInterface;
+use App\Repositories\Fund\EloquentFundRepository;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
