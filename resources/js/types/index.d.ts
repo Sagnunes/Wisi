@@ -35,4 +35,46 @@ export interface User {
     updated_at: string;
 }
 
+/**
+ *
+ * Digital Collection Interfaces
+ *
+ */
+
+export interface Fund {
+    id: number;
+    name: string;
+    acronym: string;
+    digital_objects?: DigitalObject[];
+}
+
+export interface DigitalObject {
+    id: number;
+    title: string;
+    image_name: string;
+    image_thumb: string;
+    image_derivative: string;
+    fund_acronym: string;
+    inventory_number: string;
+    website_link: string;
+    status: number;
+}
+
+/** END OF DIGITAL COLLECTION INTERFACE */
+
+export interface Pagination {
+    current_page: number;
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: any[];
+    next_page_url: string;
+    path: string;
+    per_page: number;
+    prev_page_url: string;
+    to: number;
+    total: number;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
