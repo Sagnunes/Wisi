@@ -74,7 +74,7 @@ defineProps({
                             </div>
                         </div>
                     </div>
-                    <span>Sem fundos.</span>
+                    <span v-else>Sem fundos.</span>
                 </div>
             </div>
         </div>

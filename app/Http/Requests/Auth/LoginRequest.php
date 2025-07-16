@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth;
 
+use App\Enums\Status;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +36,32 @@ final class LoginRequest extends FormRequest
         ];
     }
 
+    /*
+     * Validate the user's status.
+     *
+     * @param User $user
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     *
+     '
+     */
+
+    private function validateUserStatus(User $user): void
+    {
+        $messages = [
+            Status::PENDING->value => 'Conta não ativa. Contacte o  administrador.',
+            Status::BLOCKED->value => 'Conta suspensa. Contacte o administrador.',
+        ];
+
+        if (isset($messages[$user->status_id])) {
+            RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'email' => __($messages[$user->status_id]),
+            ]);
+        }
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -42,6 +70,12 @@ final class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+
+        $user = User::where('email', $this->email)->first();
+
+        if ($user) {
+            $this->validateUserStatus($user);
+        }
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
