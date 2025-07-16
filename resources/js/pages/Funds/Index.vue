@@ -17,7 +17,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 defineProps({
-    funds: Array as PropType<Fund[]>,
+    funds: {
+        type: Array as PropType<Fund[]>,
+        required: true,
+    },
 });
 </script>
 
@@ -31,6 +34,7 @@ defineProps({
                     <Heading title="Fundos" />
                     <div
                         class="mx-auto grid max-w-md grid-cols-1 space-y-4 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 md:grid-cols-5 lg:gap-x-8 lg:px-8"
+                        v-if="funds.length > 0"
                     >
                         <div
                             v-for="fund in funds"
@@ -69,8 +73,8 @@ defineProps({
                                 </div>
                             </div>
                         </div>
-                        lara
                     </div>
+                    <span>Sem fundos.</span>
                 </div>
             </div>
         </div>

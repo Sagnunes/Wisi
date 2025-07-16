@@ -36,10 +36,19 @@ const reachedEnd = computed(() => {
     return (props.pagination?.current_page ?? 0) >= (props.pagination?.last_page ?? 0);
 });
 
+const isSearching = ref(false);
 watchDebounced(
     searchInput,
     (value) => {
-        router.get(route('funds.show', props.fund?.acronym), { search: value }, { preserveState: true });
+        isSearching.value = true;
+        router.get(
+            route('funds.show', props.fund?.acronym),
+            { search: value },
+            {
+                preserveState: true,
+                onFinish: () => (isSearching.value = false),
+            },
+        );
     },
     { debounce: 500 },
 );
@@ -65,6 +74,7 @@ const heading = computed(() => {
                     </h2>
                     <Heading :title="heading" />
                     <SearchInput :model-value="searchInput" @update:modelValue="onSearchInput" />
+                    <LoaderCircle class="float-right h-6 w-6 animate-spin text-gray-500" v-show="isSearching" />
                     <div>
                         <p class="my-3 text-xs text-primary" v-if="pagination.total > 1">
                             Foram encontrados: <span class="font-bold">{{ pagination.total }}</span> objetos digitais.
