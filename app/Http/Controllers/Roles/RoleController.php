@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Roles;
 
+use App\Actions\Role\CreateRoleAction;
+use App\Actions\Role\DeleteRoleAction;
+use App\Actions\Role\GetRolesAction;
+use App\Actions\Role\UpdateRoleAction;
 use App\DTOs\Role\RoleDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Roles\StoreRoleRequest;
@@ -17,46 +21,23 @@ use Inertia\Response;
 
 final class RoleController extends Controller
 {
-    use AuthorizesRequests;
-
-    public function __construct(private readonly RoleService $service) {}
-
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(GetRolesAction $action): Response
     {
-        $this->authorize('viewAny', Role::class);
-
-        $roles = $this->service->getAllRolesWithPermissions();
-
-        return Inertia::render('Management/Roles/Index', [
-            'roles' => $roles,
-            'can' => [
-                'create' => auth()->user()->can('create', Role::class),
-            ],
+        return Inertia::render('Roles/Index', [
+            'roles' => $action->handle(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request)
+    public function store(StoreRoleRequest $request, CreateRoleAction $action): RedirectResponse
     {
-        $this->authorize('create', Role::class);
-        $dto = RoleDTO::fromRequest($request->validated());
-
-        $createdRole = $this->service->createRole($dto);
-
-        return to_route('roles.index')->with(['status' => 'Role created successfully.', 'data' => $createdRole]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role): void
-    {
-        //
+        $createdRole = $action->handle(RoleDTO::fromRequest($request->validated()));
+        return to_route('roles.index')->with(['status' => 'Perfil criado com sucesso', 'data' => $createdRole]);
     }
 
     /**
@@ -64,17 +45,15 @@ final class RoleController extends Controller
      */
     public function edit(Role $role): Response
     {
-        return Inertia::render('Management/Roles/Edit', ['role' => $role]);
+        return Inertia::render('Roles/Edit', ['role' => $role]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
+    public function update(UpdateRoleRequest $request, Role $role, UpdateRoleAction $action): RedirectResponse
     {
-        $this->authorize('update', $role);
-
-        $this->service->updateRole($role, RoleDTO::fromRequest($request->validated()));
+        $action->handle($role, RoleDTO::fromRequest($request->validated(), $role->uuid));
 
         return to_route('roles.edit', $role);
     }
@@ -82,12 +61,9 @@ final class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role, DeleteRoleAction $action)
     {
-        $this->authorize('delete', $role);
-
-        $this->service->deleteRole($role);
-
-        return redirect()->back()->with('status', 'Role deleted successfully.');
+        $action->handle($role);
+        return redirect()->back()->with('status', 'Perfil eliminado com sucesso');
     }
 }

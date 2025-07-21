@@ -14,7 +14,7 @@ final class UpdateRoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,9 +25,8 @@ final class UpdateRoleRequest extends FormRequest
     public function rules(): array
     {
         $role = $this->route('role');
-
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('roles')->ignore($role->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('roles')->ignore($role->uuid, 'uuid')],
             'description' => 'max:255',
         ];
     }

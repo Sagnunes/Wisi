@@ -52,7 +52,7 @@ const navUserManagementItems: NavItem[] = [
         items: [
             {
                 title: 'Perfis',
-                href: '/administracao/perfis',
+                href: '/gestao-utilizadores/perfis',
             },
             {
                 title: 'Permissões',

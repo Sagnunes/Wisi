@@ -5,33 +5,37 @@ declare(strict_types=1);
 namespace App\Services\Role;
 
 use App\Contracts\Role\RoleRepositoryInterface;
+use App\Contracts\Role\RoleServiceInterface;
 use App\DTOs\Role\RoleDTO;
 use App\Models\Role;
 use App\Traits\HasPaginationFormatting;
 
-final readonly class RoleService
+final readonly class RoleService implements RoleServiceInterface
 {
     use HasPaginationFormatting;
 
-    public function __construct(private RoleRepositoryInterface $repository) {}
-
-    public function getRole(int $id): Role
+    public function __construct(private RoleRepositoryInterface $repository)
     {
-        return $this->repository->find($id);
+    }
+
+    public function getRole(string $uuid): RoleDTO
+    {
+        $role = $this->repository->find($uuid);
+        return $this->toDto($role);
     }
 
     public function getRoles(): array
     {
         return $this->repository->all()
-            ->map(fn (Role $role): RoleDTO => $this->toDto($role))
+            ->map(fn(Role $role): RoleDTO => $this->toDto($role))
             ->toArray();
     }
 
-    public function getAllRolesWithPermissions(): array
+    public function getAllRolesWithPermissions(int $perPage = 15): array
     {
         $paginated = $this->repository->paginateWithPermissions();
 
-        $paginated = $paginated->through(fn (Role $role) => [
+        $paginated = $paginated->through(fn(Role $role) => [
             ...$this->toDto($role)->toArray(),
             'can' => [
                 'update' => auth()->user()?->can('update', $role) ?? false,
@@ -40,7 +44,7 @@ final readonly class RoleService
             ],
         ]);
 
-        return $this->formatPagination($paginated, fn ($item) => $item);
+        return $this->formatPagination($paginated, fn($item) => $item);
     }
 
     public function createRole(RoleDTO $dto): RoleDTO
@@ -73,6 +77,7 @@ final readonly class RoleService
     private function dtoToAttributes(RoleDTO $dto): array
     {
         return [
+            'uuid' => $dto->uuid,
             'name' => $dto->name,
             'slug' => $dto->slug,
             'description' => $dto->description,

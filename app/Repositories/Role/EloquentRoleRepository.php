@@ -15,7 +15,7 @@ final readonly class EloquentRoleRepository implements RoleRepositoryInterface
     /**
      * The columns to select from the role table
      */
-    private const ROLE_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
+    private const ROLE_LIST_COLUMNS = ['uuid', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(private Role $model) {}
 
@@ -24,14 +24,14 @@ final readonly class EloquentRoleRepository implements RoleRepositoryInterface
         return $this->baseQuery()->with('permissions')->get();
     }
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+    public function paginate(int $perPage): LengthAwarePaginator
     {
         return $this->baseQuery()->paginate($perPage)->withQueryString();
     }
 
-    public function find(int $id): Role
+    public function find(string $uuid): Role
     {
-        return $this->baseQuery()->findOrFail($id);
+        return $this->baseQuery()->findOrFail($uuid, 'uuid');
     }
 
     public function create(array $data): Role

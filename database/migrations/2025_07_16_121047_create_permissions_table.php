@@ -14,11 +14,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permissions', function (Blueprint $table): void {
-            $table->uuid();
-            $table->timestamps();
+            $table->uuid()->primary();
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
+            $table->timestamps();
         });
     }
 

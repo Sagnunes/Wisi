@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Permission;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
 final class PermissionController extends Controller
@@ -22,15 +23,13 @@ final class PermissionController extends Controller
      */
     public function index(GetPermissionsAction $action): \Inertia\Response
     {
-        $permissions = $action->handle();
-
-        return Inertia::render('Permissions/Index', ['permissions' => $permissions]);
+        return Inertia::render('Permissions/Index', ['permissions' => $action->handle()]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePermissionRequest $request, CreatePermissionAction $action): \Illuminate\Http\RedirectResponse
+    public function store(StorePermissionRequest $request, CreatePermissionAction $action): RedirectResponse
     {
         $createdPermission = $action->handle(PermissionDTO::fromRequest($request->validated()));
 
@@ -48,7 +47,7 @@ final class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): \Illuminate\Http\RedirectResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): RedirectResponse
     {
         $action->handle($permission, PermissionDTO::fromRequest($request->validated(), $permission->uuid));
 
@@ -58,7 +57,7 @@ final class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission, DeletePermissionAction $action): \Illuminate\Http\RedirectResponse
+    public function destroy(Permission $permission, DeletePermissionAction $action): RedirectResponse
     {
         $action->handle($permission);
 

@@ -11,7 +11,7 @@ interface RoleRepositoryInterface
 {
     public function all(): Collection;
 
-    public function find(int $id): Role;
+    public function find(string $uuid): Role;
 
     public function create(array $data): Role;
 
@@ -19,5 +19,5 @@ interface RoleRepositoryInterface
 
     public function delete(Role $role): bool;
 
-    public function paginate(int $perPage = 10);
+    public function paginate(int $perPage);
 }

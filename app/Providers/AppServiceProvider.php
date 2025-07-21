@@ -9,11 +9,13 @@ use App\Contracts\Fund\FundServiceInterface;
 use App\Contracts\Permission\PermissionRepositoryInterface;
 use App\Contracts\Permission\PermissionServiceInterface;
 use App\Contracts\Role\RoleRepositoryInterface;
+use App\Contracts\Role\RoleServiceInterface;
 use App\Repositories\Fund\EloquentFundRepository;
 use App\Repositories\Permission\EloquentPermissionRepository;
 use App\Repositories\Role\EloquentRoleRepository;
 use App\Services\Fund\FundService;
 use App\Services\Permission\PermissionService;
+use App\Services\Role\RoleService;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -33,6 +35,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(PermissionRepositoryInterface::class, EloquentPermissionRepository::class);
         $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
         $this->app->bind(FundServiceInterface::class, FundService::class);
+        $this->app->bind(RoleServiceInterface::class, RoleService::class);
     }
 
     /**

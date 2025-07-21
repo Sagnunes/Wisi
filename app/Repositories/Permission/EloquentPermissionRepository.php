@@ -24,7 +24,7 @@ final readonly class EloquentPermissionRepository implements PermissionRepositor
         return $this->baseQuery()->get();
     }
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+    public function paginate(int $perPage): LengthAwarePaginator
     {
         return $this->baseQuery()->paginate($perPage)->withQueryString();
     }

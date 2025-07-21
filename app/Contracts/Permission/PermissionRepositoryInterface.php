@@ -19,5 +19,5 @@ interface PermissionRepositoryInterface
 
     public function delete(Permission $permission): bool;
 
-    public function paginate(int $perPage = 10);
+    public function paginate(int $perPage);
 }
