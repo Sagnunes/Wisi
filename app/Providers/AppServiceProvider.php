@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Contracts\Fund\FundRepositoryInterface;
+use App\Contracts\Fund\FundServiceInterface;
 use App\Contracts\Permission\PermissionRepositoryInterface;
 use App\Contracts\Permission\PermissionServiceInterface;
 use App\Contracts\Role\RoleRepositoryInterface;
 use App\Repositories\Fund\EloquentFundRepository;
 use App\Repositories\Permission\EloquentPermissionRepository;
 use App\Repositories\Role\EloquentRoleRepository;
+use App\Services\Fund\FundService;
 use App\Services\Permission\PermissionService;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +32,7 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoleRepositoryInterface::class, EloquentRoleRepository::class);
         $this->app->bind(PermissionRepositoryInterface::class, EloquentPermissionRepository::class);
         $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
+        $this->app->bind(FundServiceInterface::class, FundService::class);
     }
 
     /**

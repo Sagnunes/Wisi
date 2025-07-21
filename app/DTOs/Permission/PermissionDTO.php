@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\DTOs\Permission;
 
+use App\Contracts\DTO\DTOInterface;
 use App\Models\Permission;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-final readonly class PermissionDTO
+final readonly class PermissionDTO implements DTOInterface
 {
     public function __construct(
         public string $name,
@@ -28,15 +30,15 @@ final readonly class PermissionDTO
         );
     }
 
-    public static function fromModel(Permission $permission): self
+    public static function fromModel(Model|Permission $model): self
     {
         return new self(
-            name: $permission->name,
-            slug: $permission->slug,
-            uuid: $permission->uuid,
-            description: $permission->description,
-            created_at: $permission->created_at->format('Y-m-d'),
-            updated_at: $permission->updated_at->format('Y-m-d'),
+            name: $model->name,
+            slug: $model->slug,
+            uuid: $model->uuid,
+            description: $model->description,
+            created_at: $model->created_at->format('Y-m-d'),
+            updated_at: $model->updated_at->format('Y-m-d'),
         );
     }
 

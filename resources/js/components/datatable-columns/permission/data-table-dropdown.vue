@@ -36,6 +36,7 @@ function openDialog() {
 function submitDelete() {
     form.delete(route('permissions.destroy', permission.uuid), {
         onSuccess: (e: object) => {
+            isOpen.value = false;
             toast.success(e.props.flash.status);
         },
         preserveScroll: true,

@@ -31,7 +31,7 @@ final readonly class EloquentPermissionRepository implements PermissionRepositor
 
     public function find(string $uuid): Permission
     {
-        return $this->baseQuery()->findOrFail($uuid,'uuid');
+        return $this->baseQuery()->findOrFail($uuid, 'uuid');
     }
 
     public function create(array $data): Permission

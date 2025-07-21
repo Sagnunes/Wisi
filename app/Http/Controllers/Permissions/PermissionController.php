@@ -23,6 +23,7 @@ final class PermissionController extends Controller
     public function index(GetPermissionsAction $action): \Inertia\Response
     {
         $permissions = $action->handle();
+
         return Inertia::render('Permissions/Index', ['permissions' => $permissions]);
     }
 
