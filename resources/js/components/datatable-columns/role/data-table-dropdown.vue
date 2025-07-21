@@ -27,6 +27,10 @@ const goToEditPermissionPage = () => {
     router.get(route('roles.edit', role.uuid));
 };
 
+const goToEditRolePermissionPage = () => {
+    router.get(route('roles.permissions.edit', role.uuid));
+};
+
 const isOpen = ref(false);
 
 function openDialog() {
@@ -59,6 +63,8 @@ function submitDelete() {
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="goToEditPermissionPage">Editar</DropdownMenuItem>
             <DropdownMenuItem @click="openDialog">Apagar</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="goToEditRolePermissionPage">Atribuir Permissões</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
 

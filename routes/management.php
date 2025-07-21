@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Permissions\PermissionController;
+use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\Roles\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,6 @@ Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(fu
         Route::delete('/{role:uuid}', [RoleController::class, 'destroy'])->name('roles.destroy');
         Route::get('/{role:uuid}/editar', [RoleController::class, 'edit'])->name('roles.edit');
     });
+
+    Route::get('perfis/{role:uuid}/permissoes/editar', [RolePermissionController::class, 'edit'])->name('roles.permissions.edit');
 });
