@@ -2,6 +2,7 @@
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
+import NavUserManagement from '@/components/NavUserManagement.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -13,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, LibraryBig } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, LibraryBig, SquareTerminal } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -41,6 +42,29 @@ const footerNavItems: NavItem[] = [
         icon: BookOpen,
     },
 ];
+
+const navUserManagementItems: NavItem[] = [
+    {
+        title: 'Gestão de Utilizadores',
+        href: '#',
+        icon: SquareTerminal,
+        isActive: false,
+        items: [
+            {
+                title: 'Perfis',
+                href: '/administracao/perfis',
+            },
+            {
+                title: 'Permissões',
+                href: '/gestao-utilizadores/permissoes',
+            },
+            {
+                title: 'Utilizadores',
+                href: '/administracao/utilizadores',
+            },
+        ],
+    },
+];
 </script>
 
 <template>
@@ -62,6 +86,7 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
+            <NavUserManagement :nav-items="navUserManagementItems" />
             <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>

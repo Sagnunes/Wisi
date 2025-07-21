@@ -11,7 +11,7 @@ interface PermissionRepositoryInterface
 {
     public function all(): Collection;
 
-    public function find(int $id): Permission;
+    public function find(string $uuid): Permission;
 
     public function create(array $data): Permission;
 

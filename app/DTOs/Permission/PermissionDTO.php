@@ -12,16 +12,19 @@ final readonly class PermissionDTO
     public function __construct(
         public string $name,
         public string $slug,
-        public ?int $id = null,
+        public string $uuid,
+        public ?string $description = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
     ) {}
 
-    public static function fromRequest(array $data): self
+    public static function fromRequest(array $data, ?string $uuid = null): self
     {
         return new self(
             name: $data['name'],
             slug: Str::slug($data['name']),
+            uuid: $uuid ?? ($data['uuid'] ?? Str::uuid()->toString()),
+            description: $data['description'] ?? null,
         );
     }
 
@@ -30,17 +33,20 @@ final readonly class PermissionDTO
         return new self(
             name: $permission->name,
             slug: $permission->slug,
-            id: $permission->id,
+            uuid: $permission->uuid,
+            description: $permission->description,
             created_at: $permission->created_at->format('Y-m-d'),
+            updated_at: $permission->updated_at->format('Y-m-d'),
         );
     }
 
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => $this->name,
             'slug' => $this->slug,
+            'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

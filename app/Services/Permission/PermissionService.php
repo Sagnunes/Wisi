@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services\Permission;
 
-use App\Contracts\PermissionRepositoryInterface;
+use App\Contracts\Permission\PermissionRepositoryInterface;
+use App\Contracts\Permission\PermissionServiceInterface;
 use App\DTOs\Permission\PermissionDTO;
 use App\Models\Permission;
 use App\Traits\HasPaginationFormatting;
 
-final readonly class PermissionService
+final readonly class PermissionService implements PermissionServiceInterface
 {
     use HasPaginationFormatting;
 
     public function __construct(private PermissionRepositoryInterface $repository) {}
 
-    public function getPermission(int $id): PermissionDTO
+    public function getPermission(string $uuid): PermissionDTO
     {
-        return $this->toDto($this->repository->find($id));
+        return $this->toDto($this->repository->find($uuid));
     }
 
     public function getPermissions(): array
@@ -32,7 +33,7 @@ final readonly class PermissionService
         $paginated = $this->repository->paginate($perPage);
 
         $paginated = $paginated->through(fn (Permission $permission) => [
-            ...$this->toDto($permission)->toArray(), // your DTO logic
+            ...$this->toDto($permission)->toArray(),
             'can' => [
                 'update' => auth()->user()?->can('update', $permission) ?? false,
                 'delete' => auth()->user()?->can('delete', $permission) ?? false,
@@ -72,8 +73,10 @@ final readonly class PermissionService
     private function dtoToAttributes(PermissionDTO $dto): array
     {
         return [
+            'uuid' => $dto->uuid,
             'name' => $dto->name,
             'slug' => $dto->slug,
+            'description' => $dto->description,
         ];
     }
 }

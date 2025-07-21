@@ -16,7 +16,10 @@ export const badgeVariants = cva(
                 outline:
                     'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
                 success:
-                    'border-transparent bg-success text-white [a&]:hover:bg-success/90 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 dark:bg-success/60'
+                    'border-transparent bg-success text-white [a&]:hover:bg-success/90 focus-visible:ring-success/20 dark:focus-visible:ring-success/40 dark:bg-success/60',
+                warning:
+                    'border-transparent bg-warning text-white [a&]:hover:bg-warning/90 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 dark:bg-warning/60'
+
             }
         },
         defaultVariants: {

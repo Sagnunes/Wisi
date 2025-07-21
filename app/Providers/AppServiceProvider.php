@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Contracts\Fund\FundRepositoryInterface;
+use App\Contracts\Permission\PermissionRepositoryInterface;
+use App\Contracts\Permission\PermissionServiceInterface;
+use App\Contracts\Role\RoleRepositoryInterface;
 use App\Repositories\Fund\EloquentFundRepository;
+use App\Repositories\Permission\EloquentPermissionRepository;
+use App\Repositories\Role\EloquentRoleRepository;
+use App\Services\Permission\PermissionService;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
@@ -21,6 +27,9 @@ final class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(FundRepositoryInterface::class, EloquentFundRepository::class);
+        $this->app->bind(RoleRepositoryInterface::class, EloquentRoleRepository::class);
+        $this->app->bind(PermissionRepositoryInterface::class, EloquentPermissionRepository::class);
+        $this->app->bind(PermissionServiceInterface::class, PermissionService::class);
     }
 
     /**

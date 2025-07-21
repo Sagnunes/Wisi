@@ -1,6 +1,6 @@
 enum Status {
-    NO_ASSOCIATION = 8,
-    UNPUBLISHED = 9,
+    UNPUBLISHED = 8,
+    NO_ASSOCIATION = 9,
     PUBLISHED = 10,
 }
 

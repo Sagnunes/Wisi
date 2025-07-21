@@ -47,7 +47,14 @@ function createViewerUrl(url: string): string {
                 <img
                     :src="resource.image_thumb"
                     :alt="resource.image_name"
-                    class="aspect-square w-full rounded-lg bg-gray-100 object-cover group-hover:opacity-75"
+                    class="aspect-square w-full rounded-lg border-b-2 bg-gray-100 object-cover group-hover:opacity-75"
+                    :class="
+                        resource.status.id == Status.NO_ASSOCIATION
+                            ? 'border-yellow-500'
+                            : resource.status.id == Status.UNPUBLISHED
+                              ? 'border-destructive'
+                              : 'border-success'
+                    "
                     loading="lazy"
                     decoding="async"
                     fetchpriority="low"
@@ -65,9 +72,9 @@ function createViewerUrl(url: string): string {
                                     <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
                                         <Badge
                                             :variant="
-                                                resource.status.id == Status.NO_ASSOCIATION
-                                                    ? 'secondary'
-                                                    : resource.status.id == Status.UNPUBLISHED
+                                                resource.status.id === Status.NO_ASSOCIATION
+                                                    ? 'warning'
+                                                    : resource.status.id === Status.UNPUBLISHED
                                                       ? 'destructive'
                                                       : 'success'
                                             "

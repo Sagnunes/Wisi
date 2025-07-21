@@ -12,7 +12,7 @@ enum Status: int
     case BLOCKED = 3;
 
     // Digital Collection
-    case NO_ASSOCIATION = 8;
-    case UNPUBLISHED = 9;
-    case PUBLISHED = 10;
+    case UNPUBLISHED = 8; // 1
+    case NO_ASSOCIATION = 9; // 0
+    case PUBLISHED = 10; // 2
 }

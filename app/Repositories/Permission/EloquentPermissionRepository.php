@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Permission;
 
-use App\Contracts\PermissionRepositoryInterface;
+use App\Contracts\Permission\PermissionRepositoryInterface;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,7 +15,7 @@ final readonly class EloquentPermissionRepository implements PermissionRepositor
     /**
      * The columns to select from the permission table
      */
-    private const PERMISSION_LIST_COLUMNS = ['id', 'name', 'slug', 'created_at', 'updated_at'];
+    private const PERMISSION_LIST_COLUMNS = ['uuid', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(private Permission $model) {}
 
@@ -29,9 +29,9 @@ final readonly class EloquentPermissionRepository implements PermissionRepositor
         return $this->baseQuery()->paginate($perPage)->withQueryString();
     }
 
-    public function find(int $id): Permission
+    public function find(string $uuid): Permission
     {
-        return $this->baseQuery()->findOrFail($id);
+        return $this->baseQuery()->findOrFail($uuid,'uuid');
     }
 
     public function create(array $data): Permission
