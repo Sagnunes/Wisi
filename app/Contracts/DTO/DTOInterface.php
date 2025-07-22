@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface DTOInterface
 {
-    public static function fromRequest(array $data, ?string $uuid = null): self;
+    public static function fromRequest(array $data): self;
 
     public static function fromModel(Model $model): self;
 

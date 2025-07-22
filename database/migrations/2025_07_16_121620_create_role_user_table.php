@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('role_user', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignUuid(Role::class)->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignIdFor(Role::class)->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

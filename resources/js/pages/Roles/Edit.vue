@@ -32,12 +32,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 breadcrumbs.push({
     title: role.name,
-    href: `/gestao-de-utilizadores/perfis/${role.uuid}/editar`,
+    href: `/gestao-de-utilizadores/perfis/${role.id}/editar`,
 });
 
 const submit = () => {
-    console.log(route('roles.update', role.uuid));
-    form.patch(route('roles.update', role.uuid), {
+    form.patch(route('roles.update', role.id), {
         preserveScroll: true,
     });
 };

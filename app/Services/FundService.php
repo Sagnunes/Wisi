@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Fund;
+namespace App\Services;
 
-use App\Contracts\Fund\FundRepositoryInterface;
-use App\Contracts\Fund\FundServiceInterface;
+use App\Contracts\Repositories\FundRepositoryInterface;
+use App\Contracts\Services\FundServiceInterface;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;

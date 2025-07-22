@@ -100,7 +100,7 @@ export interface Paginator<T> {
 }
 
 export interface Role {
-    uuid: string;
+    id: number;
     name: string;
     slug: string;
     description: string;
@@ -110,7 +110,7 @@ export interface Role {
 }
 
 export interface Permission {
-    uuid: string;
+    id: number;
     name: string;
     slug: string;
     description: string;

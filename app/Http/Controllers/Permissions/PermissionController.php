@@ -8,7 +8,7 @@ use App\Actions\Permission\CreatePermissionAction;
 use App\Actions\Permission\DeletePermissionAction;
 use App\Actions\Permission\GetPermissionsAction;
 use App\Actions\Permission\UpdatePermissionAction;
-use App\DTOs\Permission\PermissionDTO;
+use App\DTOs\PermissionDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
@@ -49,7 +49,7 @@ final class PermissionController extends Controller
      */
     public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): RedirectResponse
     {
-        $action->handle($permission, PermissionDTO::fromRequest($request->validated(), $permission->uuid));
+        $action->handle($permission, PermissionDTO::fromRequest($request->validated()));
 
         return to_route('permissions.edit', $permission);
     }

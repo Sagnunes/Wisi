@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Permission;
+namespace App\Contracts\Services;
 
-use App\DTOs\Permission\PermissionDTO;
+use App\DTOs\PermissionDTO;
 use App\Models\Permission;
 
 interface PermissionServiceInterface
 {
-    public function getPermission(string $uuid): PermissionDTO;
+    public function getPermission(int $id): PermissionDTO;
 
     public function getPermissions(): array;
-
-    public function getPermissionsPaginated(int $perPage = 15): array;
 
     public function createPermission(PermissionDTO $dto): PermissionDTO;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Role;
+namespace App\Contracts\Repositories;
 
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,7 +11,7 @@ interface RoleRepositoryInterface
 {
     public function all(): Collection;
 
-    public function find(string $uuid): Role;
+    public function find(int $id): Role;
 
     public function create(array $data): Role;
 
@@ -19,5 +19,5 @@ interface RoleRepositoryInterface
 
     public function delete(Role $role): bool;
 
-    public function paginate(int $perPage);
+    public function withPermission(int $id): Role;
 }

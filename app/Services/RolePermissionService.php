@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Services\RolePermission;
+declare(strict_types=1);
+
+namespace App\Services;
 
 use App\Models\Role;
 
-class RolePermissionService
+final class RolePermissionService
 {
     /**
      * Assign a set of permissions to a role (syncs all).

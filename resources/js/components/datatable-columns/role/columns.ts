@@ -1,4 +1,5 @@
 import DataTableDropdown from '@/components/datatable-columns/role/data-table-dropdown.vue';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Role } from '@/types';
 import type { ColumnDef } from '@tanstack/vue-table';
@@ -24,11 +25,6 @@ export const roleColumns: ColumnDef<Role>[] = [
         isDefaultFilter: true,
     },
     {
-        accessorKey: 'slug',
-        header: 'Slug',
-        cell: ({ row }) => row.original.slug,
-    },
-    {
         accessorKey: 'description',
         header: 'Descrição',
         cell: ({ row }) => row.original.description,
@@ -37,6 +33,34 @@ export const roleColumns: ColumnDef<Role>[] = [
         accessorKey: 'created_at',
         header: 'Criado em',
         cell: ({ row }) => row.original.created_at,
+    },
+    {
+        accessorKey: 'permissions',
+        header: () => h('span', { class: 'block' }, 'Permissões'),
+        cell: ({ row }) => {
+            const permissions = row.original.permissions;
+            // Check if permissions is empty or undefined
+            if (!permissions || permissions.length === 0) {
+                return h('div', { class: 'text-sm text-muted-foreground' }, 'Sem permissões');
+            }
+            return h(
+                'div',
+                {
+                    class: 'flex flex-wrap gap-2 justify-start items-center',
+                    style: { width: '500px' },
+                },
+                permissions.map((permission) =>
+                    h(
+                        Badge,
+                        {
+                            class: 'text-xs',
+                            key: permission.id,
+                        },
+                        () => permission.name,
+                    ),
+                ),
+            );
+        },
     },
     {
         id: 'actions',

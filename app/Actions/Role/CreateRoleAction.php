@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Role;
 
-use App\Contracts\Role\RoleServiceInterface;
-use App\DTOs\Role\RoleDTO;
+use App\Contracts\Services\RoleServiceInterface;
+use App\DTOs\RoleDTO;
 
 final readonly class CreateRoleAction
 {

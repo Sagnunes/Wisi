@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Role;
 
-use App\Contracts\Role\RoleServiceInterface;
+use App\Contracts\Services\RoleServiceInterface;
 
 final readonly class GetRolesAction
 {

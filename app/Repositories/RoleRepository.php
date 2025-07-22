@@ -2,36 +2,41 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Role;
+namespace App\Repositories;
 
-use App\Contracts\Role\RoleRepositoryInterface;
+use App\Contracts\Repositories\RoleRepositoryInterface;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final readonly class EloquentRoleRepository implements RoleRepositoryInterface
+final readonly class RoleRepository implements RoleRepositoryInterface
 {
     /**
      * The columns to select from the role table
      */
-    private const ROLE_LIST_COLUMNS = ['uuid', 'name', 'slug', 'description', 'created_at', 'updated_at'];
+    private const ROLE_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(private Role $model) {}
+
+    private function baseQuery(): Builder
+    {
+        return $this->model->query()->select(self::ROLE_LIST_COLUMNS)->orderBy('name');
+    }
+
+    public function find(int $id): Role
+    {
+        return $this->baseQuery()->findOrFail($id);
+    }
 
     public function all(): Collection
     {
         return $this->baseQuery()->with('permissions')->get();
     }
 
-    public function paginate(int $perPage): LengthAwarePaginator
+    public function withPermission(int $id): Role
     {
-        return $this->baseQuery()->paginate($perPage)->withQueryString();
-    }
-
-    public function find(string $uuid): Role
-    {
-        return $this->baseQuery()->findOrFail($uuid, 'uuid');
+        return $this->baseQuery()->with('permissions')->findOrFail($id);
     }
 
     public function create(array $data): Role
@@ -54,10 +59,5 @@ final readonly class EloquentRoleRepository implements RoleRepositoryInterface
     public function paginateWithPermissions(int $perPage = 15): LengthAwarePaginator
     {
         return $this->baseQuery()->with('permissions')->paginate($perPage)->withQueryString();
-    }
-
-    private function baseQuery(): Builder
-    {
-        return $this->model->query()->select(self::ROLE_LIST_COLUMNS)->orderBy('name');
     }
 }

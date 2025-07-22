@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Permission;
 
-use App\Contracts\Permission\PermissionServiceInterface;
+use App\Contracts\Services\PermissionServiceInterface;
 
 final readonly class GetPermissionsAction
 {

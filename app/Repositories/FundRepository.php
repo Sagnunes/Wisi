@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Fund;
+namespace App\Repositories;
 
-use App\Contracts\Fund\FundRepositoryInterface;
+use App\Contracts\Repositories\FundRepositoryInterface;
 use App\Models\DigitalObject;
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
-final readonly class EloquentFundRepository implements FundRepositoryInterface
+final readonly class FundRepository implements FundRepositoryInterface
 {
     /**
      *  Columns to select from the fund table

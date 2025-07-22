@@ -8,13 +8,11 @@ use App\Actions\Role\CreateRoleAction;
 use App\Actions\Role\DeleteRoleAction;
 use App\Actions\Role\GetRolesAction;
 use App\Actions\Role\UpdateRoleAction;
-use App\DTOs\Role\RoleDTO;
+use App\DTOs\RoleDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use App\Models\Role;
-use App\Services\Role\RoleService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,6 +35,7 @@ final class RoleController extends Controller
     public function store(StoreRoleRequest $request, CreateRoleAction $action): RedirectResponse
     {
         $createdRole = $action->handle(RoleDTO::fromRequest($request->validated()));
+
         return to_route('roles.index')->with(['status' => 'Perfil criado com sucesso', 'data' => $createdRole]);
     }
 
@@ -53,7 +52,7 @@ final class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role, UpdateRoleAction $action): RedirectResponse
     {
-        $action->handle($role, RoleDTO::fromRequest($request->validated(), $role->uuid));
+        $action->handle($role, RoleDTO::fromRequest($request->validated()));
 
         return to_route('roles.edit', $role);
     }
@@ -64,6 +63,7 @@ final class RoleController extends Controller
     public function destroy(Role $role, DeleteRoleAction $action)
     {
         $action->handle($role);
+
         return redirect()->back()->with('status', 'Perfil eliminado com sucesso');
     }
 }

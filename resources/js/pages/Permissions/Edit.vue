@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, Permission } from '@/types';
 import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps<{
     permission: Permission;
@@ -19,7 +20,7 @@ const form = useForm({
     description: permission.description,
 });
 
-const breadcrumbs: BreadcrumbItem[] = [
+const breadcrumbs = ref<BreadcrumbItem[]>([
     {
         title: 'Gestão de Utilizadores',
         href: '/dashboard',
@@ -28,17 +29,26 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Permissões',
         href: '/gestao-utilizadores/permissoes',
     },
-];
+]);
 
-breadcrumbs.push({
+breadcrumbs.value.push({
     title: permission.name,
-    href: `/gestao-de-utilizadores/permissoes/${permission.uuid}/editar`,
+    href: `/gestao-de-utilizadores/permissoes/${permission.id}/editar`,
 });
 
 const submit = () => {
-    console.log(route('permissions.update', permission.uuid));
-    form.patch(route('permissions.update', permission.uuid), {
+    console.log(route('permissions.update', permission.id));
+    form.patch(route('permissions.update', permission.id), {
         preserveScroll: true,
+        onSuccess: () => {
+            breadcrumbs.value = [
+                ...breadcrumbs.value.slice(0, -1),
+                {
+                    title: permission.name,
+                    href: `/gestao-de-utilizadores/permissoes/${permission.id}/editar`,
+                },
+            ];
+        },
     });
 };
 </script>
@@ -62,7 +72,7 @@ const submit = () => {
 
                     <div class="grid gap-2">
                         <Label for="name">Descrição</Label>
-                        <Input id="name" class="mt-1 block w-full" v-model="form.description" required />
+                        <Input id="name" class="mt-1 block w-full" v-model="form.description" />
                         <InputError class="mt-2" :message="form.errors.description" />
                     </div>
 

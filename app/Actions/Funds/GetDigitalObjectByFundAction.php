@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Funds;
 
-use App\Contracts\Fund\FundServiceInterface;
+use App\Contracts\Services\FundServiceInterface;
 use App\Models\Fund;
 use Illuminate\Pagination\LengthAwarePaginator;
 

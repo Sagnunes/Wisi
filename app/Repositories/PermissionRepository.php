@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Permission;
+namespace App\Repositories;
 
-use App\Contracts\Permission\PermissionRepositoryInterface;
+use App\Contracts\Repositories\PermissionRepositoryInterface;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final readonly class EloquentPermissionRepository implements PermissionRepositoryInterface
+final readonly class PermissionRepository implements PermissionRepositoryInterface
 {
     /**
      * The columns to select from the permission table
      */
-    private const PERMISSION_LIST_COLUMNS = ['uuid', 'name', 'slug', 'description', 'created_at', 'updated_at'];
+    private const PERMISSION_LIST_COLUMNS = ['id', 'name', 'slug', 'description', 'created_at', 'updated_at'];
 
     public function __construct(private Permission $model) {}
 
@@ -24,14 +24,9 @@ final readonly class EloquentPermissionRepository implements PermissionRepositor
         return $this->baseQuery()->get();
     }
 
-    public function paginate(int $perPage): LengthAwarePaginator
+    public function find(int $id): Permission
     {
-        return $this->baseQuery()->paginate($perPage)->withQueryString();
-    }
-
-    public function find(string $uuid): Permission
-    {
-        return $this->baseQuery()->findOrFail($uuid, 'uuid');
+        return $this->baseQuery()->findOrFail($id);
     }
 
     public function create(array $data): Permission

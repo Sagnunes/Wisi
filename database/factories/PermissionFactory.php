@@ -22,7 +22,6 @@ final class PermissionFactory extends Factory
         $name = $this->faker->name();
 
         return [
-            'uuid' => Str::uuid(),
             'name' => $name,
             'description' => $this->faker->sentence(),
             'slug' => Str::slug($name),

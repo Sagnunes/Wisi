@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Permission;
 
-use App\Contracts\Permission\PermissionServiceInterface;
-use App\DTOs\Permission\PermissionDTO;
+use App\Contracts\Services\PermissionServiceInterface;
+use App\DTOs\PermissionDTO;
 
 final readonly class CreatePermissionAction
 {

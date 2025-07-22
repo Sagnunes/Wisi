@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Contracts\Fund;
+namespace App\Contracts\Services;
 
 use App\Models\Fund;
 use Illuminate\Database\Eloquent\Collection;

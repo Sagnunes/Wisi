@@ -19,16 +19,16 @@ const { role } = defineProps<{ role: Role }>();
 
 const form = useForm({});
 
-function copy(uuid: string) {
-    navigator.clipboard.writeText(uuid);
+function copy(id: number) {
+    navigator.clipboard.writeText(id.toString());
 }
 
 const goToEditPermissionPage = () => {
-    router.get(route('roles.edit', role.uuid));
+    router.get(route('roles.edit', role.slug));
 };
 
 const goToEditRolePermissionPage = () => {
-    router.get(route('roles.permissions.edit', role.uuid));
+    router.get(route('roles.permissions.edit', role.slug));
 };
 
 const isOpen = ref(false);
@@ -38,7 +38,7 @@ function openDialog() {
 }
 
 function submitDelete() {
-    form.delete(route('roles.destroy', role.uuid), {
+    form.delete(route('roles.destroy', role.id), {
         onSuccess: (e: object) => {
             isOpen.value = false;
             toast.success(e.props.flash.status);
@@ -59,7 +59,7 @@ function submitDelete() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem @click="copy(role.uuid)"> Copiar ID</DropdownMenuItem>
+            <DropdownMenuItem @click="copy(role.id)"> Copiar ID</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="goToEditPermissionPage">Editar</DropdownMenuItem>
             <DropdownMenuItem @click="openDialog">Apagar</DropdownMenuItem>

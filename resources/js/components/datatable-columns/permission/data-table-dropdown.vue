@@ -19,12 +19,12 @@ const { permission } = defineProps<{ permission: Permission }>();
 
 const form = useForm({});
 
-function copy(uuid: string) {
-    navigator.clipboard.writeText(uuid);
+function copy(id: number) {
+    navigator.clipboard.writeText(id.toString());
 }
 
 const goToEditPermissionPage = () => {
-    router.get(route('permissions.edit', permission.uuid));
+    router.get(route('permissions.edit', permission.slug));
 };
 
 const isOpen = ref(false);
@@ -34,7 +34,7 @@ function openDialog() {
 }
 
 function submitDelete() {
-    form.delete(route('permissions.destroy', permission.uuid), {
+    form.delete(route('permissions.destroy', permission.id), {
         onSuccess: (e: object) => {
             isOpen.value = false;
             toast.success(e.props.flash.status);
@@ -55,7 +55,7 @@ function submitDelete() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem @click="copy(permission.uuid)"> Copiar ID</DropdownMenuItem>
+            <DropdownMenuItem @click="copy(permission.id)"> Copiar ID</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="goToEditPermissionPage">Editar</DropdownMenuItem>
             <DropdownMenuItem @click="openDialog">Apagar</DropdownMenuItem>

@@ -59,7 +59,7 @@ const submit = () => {
                 action: {
                     label: 'Desfazer',
                     onClick: () => {
-                        form.delete(route('permissions.destroy', flash.data.uuid), {
+                        form.delete(route('permissions.destroy', flash.data.id), {
                             onSuccess: (e: object) => {
                                 toast.success(e.props.flash.status);
                             },
