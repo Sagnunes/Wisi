@@ -35,6 +35,7 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    status: Status;
 }
 
 /**
@@ -79,26 +80,6 @@ export interface Pagination {
     total: number;
 }
 
-export interface Paginator<T> {
-    current_page: number;
-    data: T[];
-    first_page_url: string;
-    from: number;
-    last_page: number;
-    last_page_url: string;
-    links: {
-        url: string | null;
-        label: string;
-        active: boolean;
-    }[];
-    next_page_url: string | null;
-    path: string;
-    per_page: number;
-    prev_page_url: string | null;
-    to: number;
-    total: number;
-}
-
 export interface Role {
     id: number;
     name: string;
@@ -116,6 +97,11 @@ export interface Permission {
     description: string;
     created_at: string;
     updated_at: string;
+}
+
+interface Status {
+    id: number;
+    name: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

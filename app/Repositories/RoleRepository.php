@@ -19,11 +19,6 @@ final readonly class RoleRepository implements RoleRepositoryInterface
 
     public function __construct(private Role $model) {}
 
-    private function baseQuery(): Builder
-    {
-        return $this->model->query()->select(self::ROLE_LIST_COLUMNS)->orderBy('name');
-    }
-
     public function find(int $id): Role
     {
         return $this->baseQuery()->findOrFail($id);
@@ -59,5 +54,10 @@ final readonly class RoleRepository implements RoleRepositoryInterface
     public function paginateWithPermissions(int $perPage = 15): LengthAwarePaginator
     {
         return $this->baseQuery()->with('permissions')->paginate($perPage)->withQueryString();
+    }
+
+    private function baseQuery(): Builder
+    {
+        return $this->model->query()->select(self::ROLE_LIST_COLUMNS)->orderBy('name');
     }
 }

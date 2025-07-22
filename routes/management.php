@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Permissions\PermissionController;
-use App\Http\Controllers\Roles\RoleController;
-use App\Http\Controllers\Roles\RolePermissionController;
+use App\Http\Controllers\Management\Permissions\PermissionController;
+use App\Http\Controllers\Management\Roles\RoleController;
+use App\Http\Controllers\Management\Roles\RolePermissionController;
+use App\Http\Controllers\Management\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(function () {
@@ -24,5 +25,9 @@ Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(fu
         Route::get('/{role:slug}/editar', [RoleController::class, 'edit'])->name('roles.edit');
         Route::get('/{role:slug}/permissoes/editar', [RolePermissionController::class, 'edit'])->name('roles.permissions.edit');
         Route::patch('/{role:id}/permissoes/', [RolePermissionController::class, 'update'])->name('roles.permissions.update');
+    });
+
+    Route::prefix('utilizadores')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
     });
 });

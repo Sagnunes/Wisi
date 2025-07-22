@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Roles;
+namespace App\Http\Controllers\Management\Roles;
 
 use App\Actions\RolePermission\SyncPermissionsToRoleAction;
 use App\Contracts\Services\PermissionServiceInterface;
@@ -20,6 +20,7 @@ final class RolePermissionController extends Controller
         $permissions = $this->permissionService->getPermissions();
 
         $role->load('permissions');
+
         return Inertia::render('RolePermission/Edit', ['role' => $role, 'permissions' => $permissions]);
     }
 

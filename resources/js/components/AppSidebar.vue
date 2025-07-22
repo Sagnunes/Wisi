@@ -60,7 +60,7 @@ const navUserManagementItems: NavItem[] = [
             },
             {
                 title: 'Utilizadores',
-                href: '/administracao/utilizadores',
+                href: '/gestao-utilizadores/utilizadores',
             },
         ],
     },

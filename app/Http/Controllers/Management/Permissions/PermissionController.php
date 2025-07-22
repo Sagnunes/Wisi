@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Permissions;
+namespace App\Http\Controllers\Management\Permissions;
 
 use App\Actions\Permission\CreatePermissionAction;
 use App\Actions\Permission\DeletePermissionAction;

@@ -16,20 +16,6 @@ final readonly class PermissionService implements PermissionServiceInterface
 
     public function __construct(private PermissionRepositoryInterface $repository) {}
 
-    private function toDto(Permission $permission): PermissionDTO
-    {
-        return PermissionDTO::fromModel($permission);
-    }
-
-    private function dtoToAttributes(PermissionDTO $dto): array
-    {
-        return [
-            'name' => $dto->name,
-            'slug' => $dto->slug,
-            'description' => $dto->description,
-        ];
-    }
-
     public function getPermission(int $id): PermissionDTO
     {
         return $this->toDto($this->repository->find($id));
@@ -62,5 +48,19 @@ final readonly class PermissionService implements PermissionServiceInterface
     public function deletePermission(Permission $permission): bool
     {
         return $this->repository->delete($permission);
+    }
+
+    private function toDto(Permission $permission): PermissionDTO
+    {
+        return PermissionDTO::fromModel($permission);
+    }
+
+    private function dtoToAttributes(PermissionDTO $dto): array
+    {
+        return [
+            'name' => $dto->name,
+            'slug' => $dto->slug,
+            'description' => $dto->description,
+        ];
     }
 }

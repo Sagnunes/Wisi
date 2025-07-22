@@ -54,7 +54,7 @@ final readonly class RoleDTO implements DTOInterface
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'permissions' => collect($this->permissions ?? [])->map(fn ($permission): array => [
-                'uuid' => $permission->uuid,
+                'id' => $permission->id,
                 'name' => $permission->name,
                 'slug' => $permission->slug,
             ])->toArray(),

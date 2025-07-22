@@ -16,20 +16,6 @@ final readonly class RoleService implements RoleServiceInterface
 
     public function __construct(private RoleRepositoryInterface $repository) {}
 
-    private function toDto(Role $role): RoleDTO
-    {
-        return RoleDTO::fromModel($role);
-    }
-
-    private function dtoToAttributes(RoleDTO $dto): array
-    {
-        return [
-            'name' => $dto->name,
-            'slug' => $dto->slug,
-            'description' => $dto->description,
-        ];
-    }
-
     public function getRole(int $id): RoleDTO
     {
         $role = $this->repository->find($id);
@@ -47,6 +33,7 @@ final readonly class RoleService implements RoleServiceInterface
     public function getRoleWithPermission(int $id): RoleDTO
     {
         $role = $this->repository->withPermission($id);
+
         return $this->toDto($role);
     }
 
@@ -70,5 +57,19 @@ final readonly class RoleService implements RoleServiceInterface
     public function deleteRole(Role $role): bool
     {
         return $this->repository->delete($role);
+    }
+
+    private function toDto(Role $role): RoleDTO
+    {
+        return RoleDTO::fromModel($role);
+    }
+
+    private function dtoToAttributes(RoleDTO $dto): array
+    {
+        return [
+            'name' => $dto->name,
+            'slug' => $dto->slug,
+            'description' => $dto->description,
+        ];
     }
 }

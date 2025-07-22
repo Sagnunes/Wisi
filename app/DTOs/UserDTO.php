@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DTOs;
+
+use App\Contracts\DTO\DTOInterface;
+use App\Models\Role;
+use App\Models\Status;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+
+final class UserDTO implements DTOInterface
+{
+    public function __construct(
+        public string $name,
+        public string $email,
+        public ?Role $role = null,
+        public Status $status,
+        public string $created_at,
+        public ?string $updated_at,
+    ) {}
+
+    public static function fromRequest(array $data): DTOInterface
+    {
+        // TODO: Implement fromRequest() method.
+    }
+
+    public static function fromModel(Model|User $model): UserDTO
+    {
+        return new self(
+            name: $model->name,
+            email: $model->email,
+            role: $model->role ?? null,
+            status: $model->status,
+            created_at: $model->created_at->format('Y-m-d'),
+            updated_at: $model->updated_at->format('Y-m-d'),
+        );
+    }
+
+    public function toArray(): array
+    {
+        // TODO: Implement toArray() method.
+    }
+}
