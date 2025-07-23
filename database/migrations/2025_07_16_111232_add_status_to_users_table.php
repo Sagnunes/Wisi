@@ -14,7 +14,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table): void {
-            $table->foreignIdFor(App\Models\Status::class)->default(App\Enums\Status::PENDING)->after('email')->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignIdFor(App\Models\Status::class)
+                ->nullable()
+                ->default(App\Enums\Status::PENDING)
+                ->after('email')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
         });
     }
 
