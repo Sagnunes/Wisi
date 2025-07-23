@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('statuses', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
-            $table->foreignIdFor(StatusType::class)->constrained()->onUpdate('cascade')->nullOnDelete();
+            $table->foreignIdFor(StatusType::class)->nullable()->constrained()->onUpdate('cascade')->nullOnDelete();
             $table->timestamps();
         });
     }

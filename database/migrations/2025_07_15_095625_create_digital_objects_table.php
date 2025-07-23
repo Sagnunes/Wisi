@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('image_derivative');
             $table->string('inventory_number')->nullable();
             $table->string('website_link')->nullable();
-            $table->foreignIdFor(Fund::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(App\Models\Status::class)->default(App\Enums\Status::UNPUBLISHED)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Fund::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(App\Models\Status::class)->nullable()->default(App\Enums\Status::UNPUBLISHED)->constrained()->cascadeOnUpdate();
 
             $table->index('status_id', 'idx_status_id');
 
