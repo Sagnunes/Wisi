@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-final class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -63,5 +63,23 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    protected array $permissionCache = [];
+
+    public function hasRole(string $role)
+    {
+        return $this->roles->contains('name', $role);
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if (!isset($this->permissionCache[$permission])) {
+            $this->permissionCache[$permission] = $this->roles()
+                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
+                ->exists();
+        }
+
+        return $this->permissionCache[$permission];
     }
 }

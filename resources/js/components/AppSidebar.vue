@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import NavUserManagement from '@/components/NavUserManagement.vue';
@@ -12,10 +11,40 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import Permission from '@/enums/Permission';
+import Role from '@/enums/Role';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, LibraryBig, SquareTerminal } from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from './AppLogo.vue';
+
+const page = usePage();
+
+const isWatcher = computed(() => {
+    return (page.props.auth.user?.roles ?? []).some((role: any) => role.name === Role.WATCHER);
+});
+
+const userPermissions = computed(() => {
+    const roles = page.props.auth.user?.roles ?? [];
+    const allPermissions = roles.flatMap((role: any) => role.permissions ?? []);
+    return [...new Set(allPermissions.map((perm: any) => perm.slug))];
+});
+
+const filterNavItemsByPermissions = (items: NavItem[], userPermissions: string[], isSuperAdmin: boolean): NavItem[] => {
+    return items
+        .filter((item) => {
+            if (isSuperAdmin) return true;
+            if (!item.permissions || item.permissions.length === 0) {
+                return true;
+            }
+            return item.permissions.some((permission) => userPermissions.includes(permission));
+        })
+        .map((item) => ({
+            ...item,
+            items: item.items ? filterNavItemsByPermissions(item.items, userPermissions, isSuperAdmin) : undefined,
+        }));
+};
 
 const mainNavItems: NavItem[] = [
     {
@@ -27,6 +56,7 @@ const mainNavItems: NavItem[] = [
         title: 'Coleção Digital',
         href: '/colecao-digital',
         icon: LibraryBig,
+        permissions: [Permission.ACCESS_DIGITAL_COLLECTION],
     },
 ];
 
@@ -49,6 +79,7 @@ const navUserManagementItems: NavItem[] = [
         href: '#',
         icon: SquareTerminal,
         isActive: false,
+        permissions: [Permission.USER_MANAGEMENT],
         items: [
             {
                 title: 'Perfis',
@@ -65,6 +96,15 @@ const navUserManagementItems: NavItem[] = [
         ],
     },
 ];
+
+const filteredMainNavItems = computed(() =>
+    filterNavItemsByPermissions(mainNavItems, userPermissions.value, isWatcher.value),
+);
+
+console.log(isWatcher.value);
+const filteredNavManagementItems = computed(() =>
+    filterNavItemsByPermissions(navUserManagementItems, userPermissions.value, isWatcher.value),
+);
 </script>
 
 <template>
@@ -82,12 +122,12 @@ const navUserManagementItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="filteredMainNavItems" />
         </SidebarContent>
 
         <SidebarFooter>
-            <NavUserManagement :nav-items="navUserManagementItems" />
-            <NavFooter :items="footerNavItems" />
+            <NavUserManagement :nav-items="filteredNavManagementItems" />
+            <!--            <NavFooter :items="footerNavItems" />-->
             <NavUser />
         </SidebarFooter>
     </Sidebar>
