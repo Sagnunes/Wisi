@@ -5,21 +5,25 @@ declare(strict_types=1);
 namespace App\DTOs;
 
 use App\Contracts\DTO\DTOInterface;
-use App\Models\Role;
 use App\Models\Status;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 final class UserDTO implements DTOInterface
 {
     public function __construct(
-        public string $name,
-        public string $email,
-        public ?Role $role = null,
-        public Status $status,
-        public string $created_at,
+        public string  $name,
+        public string  $email,
+        public ?int    $id = null,
+        public ?Collection   $roles = null,
+        public Status  $status,
+        public string  $created_at,
         public ?string $updated_at,
-    ) {}
+
+    )
+    {
+    }
 
     public static function fromRequest(array $data): DTOInterface
     {
@@ -31,10 +35,12 @@ final class UserDTO implements DTOInterface
         return new self(
             name: $model->name,
             email: $model->email,
-            role: $model->role ?? null,
+            id: $model->id,
+            roles: $model->roles ?? null,
             status: $model->status,
             created_at: $model->created_at->format('Y-m-d'),
             updated_at: $model->updated_at->format('Y-m-d'),
+
         );
     }
 

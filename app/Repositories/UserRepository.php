@@ -20,7 +20,7 @@ final readonly class UserRepository implements UserRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->baseQuery()->with('status')->get();
+        return $this->baseQuery()->with(['status','roles'])->get();
     }
 
     public function delete(User $user): bool

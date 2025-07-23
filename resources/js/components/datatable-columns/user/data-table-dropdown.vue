@@ -9,36 +9,74 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Status from '@/enums/Status';
 import { User } from '@/types';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 const { user } = defineProps<{ user: User }>();
 
-const form = useForm({});
+const form = useForm({
+    updatedStatus: 0,
+    user_id: user.id,
+});
 
 function copy(id: number) {
     navigator.clipboard.writeText(id.toString());
 }
 
-const isOpen = ref(false);
+const isDeleteDialogOpen = ref(false);
 
-function openDialog() {
-    isOpen.value = true;
+const isValidatedDialogOpen = ref(false);
+
+function openValidatedDialog() {
+    isValidatedDialogOpen.value = true;
+}
+
+function openDeleteDialog() {
+    isDeleteDialogOpen.value = true;
 }
 
 function submitDelete() {
-    form.delete(route('roles.destroy', user.id), {
+    form.delete(route('users.destroy', user.id), {
         onSuccess: (e: object) => {
-            isOpen.value = false;
+            console.log(e.props.flash);
+            isDeleteDialogOpen.value = false;
             toast.success(e.props.flash.status);
         },
         preserveScroll: true,
         preserveState: true,
     });
 }
+
+function submitValidate(status: number) {
+    form.updatedStatus = status;
+    form.patch(route('users.status.update', user.id), {
+        onSuccess: (e: object) => {
+            isValidatedDialogOpen.value = false;
+            toast.success(e.props.flash.status);
+        },
+        preserveScroll: true,
+        preserveState: true,
+    });
+}
+
+function getNextStatus(status: Status): Status {
+    switch (status) {
+        case Status.PENDING:
+            return Status.ACTIVE;
+        case Status.ACTIVE:
+            return Status.BLOCKED;
+        default:
+            return Status.ACTIVE;
+    }
+}
+
+const goToEditUserRolesPage = () => {
+    router.get(route('users.roles.edit', user.id));
+};
 </script>
 
 <template>
@@ -51,16 +89,29 @@ function submitDelete() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem @click="copy(user.id)"> Copiar ID</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem @click="openDialog">Apagar</DropdownMenuItem>
+            <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Atribuir Perfil</DropdownMenuItem>
+            <DropdownMenuItem @click="openValidatedDialog">Validar</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="goToEditUserRolesPage">Atribuir Perfil</DropdownMenuItem>
         </DropdownMenuContent>
     </DropdownMenu>
 
     <Dialog
-        v-model="isOpen"
+        v-model="isValidatedDialogOpen"
+        title="Validar Utilizador"
+        description="Tem certeza que deseja validar o utilizador?"
+    >
+        <template #submitButton>
+            <Button type="submit" @click="submitValidate(getNextStatus(user.status.id))" variant="success"
+                >Apagar
+            </Button>
+        </template>
+    </Dialog>
+
+    <Dialog
+        v-model="isDeleteDialogOpen"
         title="Eliminar utilizador"
         description="Tem certeza que deseja deseja eliminar o utilizador? Este processo não pode ser desfeito. "
     >

@@ -60,6 +60,33 @@ export const userColumns: ColumnDef<User>[] = [
         },
     },
     {
+        accessorKey: 'roles',
+        header: () => h('span', { class: 'block' }, 'Perfis'),
+        cell: ({ row }) => {
+            const roles = row.original.roles;
+            if (!roles || roles.length === 0) {
+                return h('div', { class: 'text-sm text-muted-foreground' }, 'Sem perfis');
+            }
+            return h(
+                'div',
+                {
+                    class: 'flex flex-wrap gap-2 justify-start items-center',
+                    style: { width: '' },
+                },
+                roles.map((role) =>
+                    h(
+                        Badge,
+                        {
+                            class: 'text-xs',
+                            key: role.id,
+                        },
+                        () => role.name,
+                    ),
+                ),
+            );
+        },
+    },
+    {
         id: 'actions',
         header: '',
         enableHiding: false,

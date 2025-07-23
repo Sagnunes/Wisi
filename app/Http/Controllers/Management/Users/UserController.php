@@ -22,6 +22,6 @@ final class UserController extends Controller
     {
         $action->handle($user);
 
-        return to_route('users.index')->with('success', 'Utilizador apagado com sucesso.');
+        return to_route('users.index')->with('status', 'Utilizador apagado com sucesso.');
     }
 }

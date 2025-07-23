@@ -6,6 +6,8 @@ use App\Http\Controllers\Management\Permissions\PermissionController;
 use App\Http\Controllers\Management\Roles\RoleController;
 use App\Http\Controllers\Management\Roles\RolePermissionController;
 use App\Http\Controllers\Management\Users\UserController;
+use App\Http\Controllers\Management\Users\UserRoleController;
+use App\Http\Controllers\Management\Users\UserStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(function () {
@@ -29,5 +31,10 @@ Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(fu
 
     Route::prefix('utilizadores')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::delete('/{user:id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::patch('/{user:id}/validar', UserStatusController::class)->name('users.status.update');
+
+        Route::get('/{user:id}/perfil/editar', [UserRoleController::class, 'edit'])->name('users.roles.edit');
+        Route::patch('/{user:id}/perfil/', [UserRoleController::class, 'update'])->name('users.roles.update');
     });
 });
