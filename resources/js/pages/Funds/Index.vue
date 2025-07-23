@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
+import TextLink from '@/components/TextLink.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, Fund } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
@@ -31,7 +32,10 @@ defineProps({
             <div class="flex h-full flex-1 flex-col rounded-xl p-4">
                 <div class="relative">
                     <h2 id="collection-heading" class="sr-only">Fundos</h2>
-                    <Heading title="Fundos" />
+                    <div class="mb-4 flex flex-row items-center justify-between gap-4">
+                        <Heading title="Fundos" />
+                        <TextLink :href="route('funds.inquiry')" class="mr-24"> Inquerito</TextLink>
+                    </div>
                     <div
                         class="mx-auto grid max-w-md grid-cols-1 space-y-4 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 md:grid-cols-5 lg:gap-x-8 lg:px-8"
                         v-if="funds.length > 0"
