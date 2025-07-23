@@ -48,7 +48,7 @@ final class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user() ? $request->user()->load([
                     'roles:id,name',
-                    'roles.permissions:id,slug'
+                    'roles.permissions:id,slug',
                 ]) : null,
             ],
             'ziggy' => [

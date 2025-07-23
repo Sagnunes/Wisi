@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Management\Users;
 
 use App\Actions\UserStatus\UpdateUserStatusAction;
@@ -7,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserStatusRequest;
 use App\Models\User;
 
-class UserStatusController extends Controller
+final class UserStatusController extends Controller
 {
     /**
      * Handle the incoming request.

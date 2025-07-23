@@ -3,7 +3,13 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 
+use function Pest\Laravel\seed;
+
+beforeEach(function () {
+    seed([DatabaseSeeder::class]);
+});
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 

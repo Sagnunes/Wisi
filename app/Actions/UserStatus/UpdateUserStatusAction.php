@@ -9,9 +9,7 @@ use App\Models\User;
 
 final readonly class UpdateUserStatusAction
 {
-    public function __construct(private UserServiceInterface $service)
-    {
-    }
+    public function __construct(private UserServiceInterface $service) {}
 
     public function handle(User $user, int $statusId): bool
     {

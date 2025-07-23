@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Management\Users;
 
 use App\Actions\Role\GetRolesAction;
@@ -9,13 +11,14 @@ use App\Http\Requests\UpdateUserRoleRequest;
 use App\Models\User;
 use Inertia\Inertia;
 
-class UserRoleController extends Controller
+final class UserRoleController extends Controller
 {
     public function edit(User $user, GetRolesAction $action): \Inertia\Response
     {
         $roles = $action->handle();
 
         $user->load('roles');
+
         return Inertia::render('UserRoles/Edit', ['user' => $user, 'roles' => $roles]);
     }
 

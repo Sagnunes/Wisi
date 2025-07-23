@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Enums\Status;
-use App\Models\Role;
 use App\Models\User;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,22 +20,14 @@ final class DatabaseSeeder extends Seeder
             StatusTypeSeeder::class,
             StatusSeeder::class,
             FundSeeder::class,
+            RoleSeeder::class,
         ]);
 
-        $role = Role::factory()->create([
-                'name' => 'The Watcher',
-                'slug' => 'the-watcher',
-            ]
-        );
-
-        $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $watcher = User::factory()->create([
+            'name' => 'The Watcher',
+            'email' => 'watcher@madeira.gov.pt',
             'status_id' => Status::ACTIVE,
         ]);
-
-        $user->roles()->attach($role);
-
-
+        $watcher->roles()->attach(\App\Enums\Role::WATCHER->value);
     }
 }

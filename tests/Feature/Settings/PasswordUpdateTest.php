@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\DatabaseSeeder;
 
+use function Pest\Laravel\seed;
+
+beforeEach(function () {
+    seed([DatabaseSeeder::class]);
+});
 test('password can be updated', function () {
     $user = User::factory()->create();
 

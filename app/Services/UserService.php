@@ -25,7 +25,7 @@ final readonly class UserService implements UserServiceInterface
         return $this->repository->delete($user);
     }
 
-    public function updateStatus(User $user , int $status): bool
+    public function updateStatus(User $user, int $status): bool
     {
         return $user->update(['status_id' => $status]);
     }

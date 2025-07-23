@@ -13,9 +13,17 @@ final class RoleSeeder extends Seeder
      * The list of roles to seed.
      */
     private const ROLE_LIST = [
-        ['name' => 'Watcher'],
-        ['name' => 'Director'],
-        ['name' => 'Collector'],
+        ['name' => 'The Watcher', 'description' => 'É a entidade máxima do sistema, com acesso irrestrito a todas as funcionalidades e informação. ', 'slug' => 'the-watcher'],
+        [
+            'name' => 'Director',
+            'slug' => 'director',
+            'description' => 'Administra e supervisiona áreas estratégicas do sistema, com permissões avançadas mas sem acesso irrestrito.',
+        ],
+        [
+            'name' => 'The Collector',
+            'slug' => 'the-collector',
+            'description' => 'Responsável pela gestão da coleção digital e pelo acesso a fotografias de determinados fundos.',
+        ],
     ];
 
     /**

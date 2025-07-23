@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,6 +36,8 @@ final class User extends Authenticatable
         'remember_token',
     ];
 
+    private array $permissionCache = [];
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);
@@ -45,6 +46,27 @@ final class User extends Authenticatable
     public function getIsActiveAttribute(): bool
     {
         return $this->status && $this->status_id === \App\Enums\Status::ACTIVE->value;
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function hasRole(string $role)
+    {
+        return $this->roles->contains('name', $role);
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if (! isset($this->permissionCache[$permission])) {
+            $this->permissionCache[$permission] = $this->roles()
+                ->whereHas('permissions', fn ($q) => $q->where('slug', $permission))
+                ->exists();
+        }
+
+        return $this->permissionCache[$permission];
     }
 
     /**
@@ -58,28 +80,5 @@ final class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
-    }
-
-    protected array $permissionCache = [];
-
-    public function hasRole(string $role)
-    {
-        return $this->roles->contains('name', $role);
-    }
-
-    public function hasPermission(string $permission): bool
-    {
-        if (!isset($this->permissionCache[$permission])) {
-            $this->permissionCache[$permission] = $this->roles()
-                ->whereHas('permissions', fn($q) => $q->where('slug', $permission))
-                ->exists();
-        }
-
-        return $this->permissionCache[$permission];
     }
 }

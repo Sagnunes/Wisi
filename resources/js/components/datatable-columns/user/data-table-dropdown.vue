@@ -23,10 +23,6 @@ const form = useForm({
     user_id: user.id,
 });
 
-function copy(id: number) {
-    navigator.clipboard.writeText(id.toString());
-}
-
 const isDeleteDialogOpen = ref(false);
 
 const isValidatedDialogOpen = ref(false);
