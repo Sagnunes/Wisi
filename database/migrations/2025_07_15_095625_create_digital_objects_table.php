@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Fund;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -16,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('digital_objects', function (Blueprint $table): void {
             $table->id();
-            $table->string('title',255);
+            $table->mediumText('title');
             $table->string('image_name');
             $table->string('image_thumb');
             $table->string('image_derivative');
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->index(['fund_id', 'title', 'inventory_number'], 'idx_fund_title_inventory');
         });
 
+        Illuminate\Support\Facades\DB::statement('CREATE INDEX idx_fund_title_inventory ON digital_objects (fund_id, title(100), inventory_number(100))');
     }
 
     /**
