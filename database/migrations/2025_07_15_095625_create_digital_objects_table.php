@@ -29,8 +29,6 @@ return new class extends Migration
             $table->index('status_id', 'idx_status_id');
 
             $table->index('image_thumb', 'idx_image_thumb');
-
-            $table->index(['fund_id', 'title', 'inventory_number'], 'idx_fund_title_inventory');
         });
 
         Illuminate\Support\Facades\DB::statement('CREATE INDEX idx_fund_title_inventory ON digital_objects (fund_id, title(100), inventory_number(100))');
