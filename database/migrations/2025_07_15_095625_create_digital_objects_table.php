@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('digital_objects', function (Blueprint $table): void {
             $table->id();
-            $table->text('title');
+            $table->string('title',255);
             $table->string('image_name');
             $table->string('image_thumb');
             $table->string('image_derivative');
