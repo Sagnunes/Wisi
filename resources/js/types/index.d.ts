@@ -61,7 +61,8 @@ export interface DigitalObject {
     fund_acronym: string;
     inventory_number: string;
     website_link: string;
-    status: number;
+    status: Status;
+    created_at: string;
 }
 
 /** END OF DIGITAL COLLECTION INTERFACE */

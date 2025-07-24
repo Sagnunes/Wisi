@@ -58,6 +58,7 @@ final class DigitalObjectsImportCommand extends Command
                 'inventory_number' => $row[5],
                 'website_link' => $row[6],
                 'status_id' => $this->mapToStatusEnum($row[7]),
+                'created_at' => $row[8],
             ]);
             foreach (ArrayHelper::chunkFile($digitalObjects, $generateRow, 1000) as $chunk) {
                 DigitalObject::insert($chunk);

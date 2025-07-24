@@ -65,22 +65,28 @@ function createViewerUrl(url: string): string {
                     <DialogContent class="md:max-h-[90vh] md:max-w-6xl">
                         <DialogHeader>
                             <DialogTitle>
-                                <div class="mt-4 flex items-center gap-x-3 text-sm">
-                                    <div class="font-semibold text-sidebar-primary">
-                                        {{ resource.inventory_number }}
+                                <div class="mt-4 flex items-center justify-between gap-x-3 text-sm">
+                                    <div class="flex flex-row items-center gap-x-2">
+                                        <div class="font-semibold text-sidebar-primary">
+                                            {{ resource.inventory_number }}
+                                        </div>
+                                        <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
+                                            <Badge
+                                                :variant="
+                                                    resource.status.id === Status.NO_ASSOCIATION
+                                                        ? 'warning'
+                                                        : resource.status.id === Status.UNPUBLISHED
+                                                          ? 'destructive'
+                                                          : 'success'
+                                                "
+                                                >{{ resource.status.name }}</Badge
+                                            >
+                                        </span>
                                     </div>
-                                    <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
-                                        <Badge
-                                            :variant="
-                                                resource.status.id === Status.NO_ASSOCIATION
-                                                    ? 'warning'
-                                                    : resource.status.id === Status.UNPUBLISHED
-                                                      ? 'destructive'
-                                                      : 'success'
-                                            "
-                                            >{{ resource.status.name }}</Badge
-                                        >
-                                    </span>
+                                    <p class="text-xs text-shadow-muted">
+                                        Data de inserção:
+                                        <span class="text-muted-foreground">{{ resource.created_at }}</span>
+                                    </p>
                                 </div>
                             </DialogTitle>
                             <DialogDescription>

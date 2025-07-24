@@ -47,8 +47,7 @@ final readonly class FundRepository implements FundRepositoryInterface
                 $query->where('title', 'LIKE', "%{$search}%")
                     ->orWhere('inventory_number', 'LIKE', "%{$search}%");
             })
-            ->orderByDesc('status_id')
-            ->orderByRaw('CAST(SUBSTR(inventory_number, INSTR(inventory_number, "/") + 1) AS INTEGER)')
+            ->orderByDesc('created_at')
             ->paginate()
             ->withQueryString();
     }
