@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Permission;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -25,7 +25,6 @@ final class UpdatePermissionRequest extends FormRequest
     public function rules(): array
     {
         $permission = $this->route('permission');
-
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('permissions')->ignore($permission->id)],
             'description' => 'nullable|string|max:255',

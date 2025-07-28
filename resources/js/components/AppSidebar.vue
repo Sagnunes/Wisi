@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import NavDropdown from '@/components/NavDropdown.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
-import NavUserManagement from '@/components/NavUserManagement.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -75,7 +75,7 @@ const mainNavItems: NavItem[] = [
 
 const navUserManagementItems: NavItem[] = [
     {
-        title: 'Gestão de Utilizadores',
+        title: 'Painel Administrativo',
         href: '#',
         icon: SquareTerminal,
         isActive: false,
@@ -93,6 +93,10 @@ const navUserManagementItems: NavItem[] = [
                 title: 'Utilizadores',
                 href: '/gestao-utilizadores/utilizadores',
             },
+            {
+                title: 'Prateleiras',
+                href: '/gestao-depositos/prateleiras',
+            },
         ],
     },
 ];
@@ -101,7 +105,6 @@ const filteredMainNavItems = computed(() =>
     filterNavItemsByPermissions(mainNavItems, userPermissions.value, isWatcher.value),
 );
 
-console.log(isWatcher.value);
 const filteredNavManagementItems = computed(() =>
     filterNavItemsByPermissions(navUserManagementItems, userPermissions.value, isWatcher.value),
 );
@@ -126,7 +129,7 @@ const filteredNavManagementItems = computed(() =>
         </SidebarContent>
 
         <SidebarFooter>
-            <NavUserManagement :nav-items="filteredNavManagementItems" />
+            <NavDropdown :nav-items="filteredNavManagementItems" group-label="Gestão" />
             <!--            <NavFooter :items="footerNavItems" />-->
             <NavUser />
         </SidebarFooter>

@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Management\Roles;
 use App\Actions\RolePermission\SyncPermissionsToRoleAction;
 use App\Contracts\Services\PermissionServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateRolePermissionRequest;
+use App\Http\Requests\RolePermission\UpdateRolePermissionRequest;
 use App\Models\Role;
 use Inertia\Inertia;
 

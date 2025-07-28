@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Management\Users;
 use App\Actions\Role\GetRolesAction;
 use App\Actions\UserRole\UpdateUserRoleAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRoleRequest;
+use App\Http\Requests\UserRole\UpdateUserRoleRequest;
 use App\Models\User;
 use Inertia\Inertia;
 

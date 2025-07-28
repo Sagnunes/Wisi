@@ -2,6 +2,7 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
     SidebarGroup,
+    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -13,10 +14,15 @@ import { NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ChevronRight } from 'lucide-vue-next';
 import { PropType } from 'vue';
+
 defineProps({
     navItems: {
         type: Object as PropType<NavItem[]>,
         required: true,
+    },
+    groupLabel: {
+        type: String,
+        required: false,
     },
 });
 
@@ -31,7 +37,7 @@ function isGroupActive(item) {
 
 <template>
     <SidebarGroup>
-        <!--        <SidebarGroupLabel>Gestão</SidebarGroupLabel>-->
+        <SidebarGroupLabel>{{ groupLabel }}</SidebarGroupLabel>
         <SidebarMenu>
             <Collapsible
                 v-for="item in navItems"

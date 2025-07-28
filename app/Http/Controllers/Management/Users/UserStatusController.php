@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Management\Users;
 
 use App\Actions\UserStatus\UpdateUserStatusAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserStatusRequest;
+use App\Http\Requests\UserStatus\UpdateUserStatusRequest;
 use App\Models\User;
 
 final class UserStatusController extends Controller

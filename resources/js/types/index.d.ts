@@ -101,6 +101,14 @@ export interface Permission {
     updated_at: string;
 }
 
+export interface Shelve {
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
+}
+
 interface Status {
     id: number;
     name: string;

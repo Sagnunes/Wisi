@@ -8,6 +8,7 @@ use App\Http\Controllers\Management\Roles\RolePermissionController;
 use App\Http\Controllers\Management\Users\UserController;
 use App\Http\Controllers\Management\Users\UserRoleController;
 use App\Http\Controllers\Management\Users\UserStatusController;
+use App\Http\Controllers\Shelves\ShelveController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(function () {
@@ -38,3 +39,15 @@ Route::middleware(['auth', 'verified'])->prefix('gestao-utilizadores')->group(fu
         Route::patch('/{user:id}/perfil/', [UserRoleController::class, 'update'])->name('users.roles.update');
     });
 });
+
+Route::middleware(['auth', 'verified'])->prefix('gestao-depositos')->group(function () {
+    Route::prefix('prateleiras')->group(function () {
+        Route::get('/', [ShelveController::class, 'index'])->name('shelves.index');
+        Route::post('/', [ShelveController::class, 'store'])->name('shelves.store');
+        Route::patch('/{shelve:id}', [ShelveController::class, 'update'])->name('shelves.update');
+        Route::delete('/{shelve:id}', [ShelveController::class, 'destroy'])->name('shelves.destroy');
+        Route::get('/{shelve:slug}/editar', [ShelveController::class, 'edit'])->name('shelves.edit');
+    });
+});
+
+

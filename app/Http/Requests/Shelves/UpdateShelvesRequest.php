@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Http\Requests;
+namespace App\Http\Requests\Shelves;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-final class UpdateRolePermissionRequest extends FormRequest
+class UpdateShelvesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +22,20 @@ final class UpdateRolePermissionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $shelve = $this->route('shelve');
+
         return [
-            'selectedPermissions' => ['array'],
-            'selectedPermissions.*' => ['integer', 'exists:permissions,id'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('shelves')->ignore($shelve->id)],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'selectedPermissions.array' => 'O campo permissões deve ser um conjunto de valores.',
-            'selectedPermissions.*.int' => 'Cada permissão deve ser um valor do tipo número.',
-            'selectedPermissions.*.exists' => 'Uma ou mais permissões selecionadas não são válidas.',
+            'name.required' => 'O campo nome é obrigatório.',
+            'name.string' => 'O campo nome deve ser um texto.',
+            'name.max' => 'O nome não pode ter mais de 255 caracteres.',
+            'name.unique' => 'Este nome já está a ser utilizado.',
         ];
     }
 }

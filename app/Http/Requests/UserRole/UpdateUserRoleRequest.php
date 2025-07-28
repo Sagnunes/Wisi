@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UserRole;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class UpdateUserStatusRequest extends FormRequest
+final class UpdateUserRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ final class UpdateUserStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'updatedStatus' => ['required', 'integer', 'exists:statuses,id'],
+            'selectedRoles' => ['array', 'exists:roles,id'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }
@@ -32,9 +32,8 @@ final class UpdateUserStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'updatedStatus.required' => 'O estado é obrigatório.',
-            'updatedStatus.integer' => 'O estado deve ser um número inteiro.',
-            'updatedStatus.exists' => 'O estado selecionado não existe na base de dados.',
+            'selectedRoles.integer' => 'O estado deve ser um número inteiro.',
+            'selectedRoles.exists' => 'O estado selecionado não existe na base de dados.',
 
             'user_id.required' => 'O utilizador é obrigatório.',
             'user_id.integer' => 'O ID do utilizador deve ser um número inteiro.',
