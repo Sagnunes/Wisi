@@ -20,4 +20,11 @@ final class DigitalObject extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime:Y-m-d',
+        ];
+    }
 }

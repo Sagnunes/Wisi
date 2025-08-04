@@ -12,6 +12,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Status from '@/enums/Status';
 import { DigitalObject } from '@/types';
@@ -38,27 +39,40 @@ function createViewerUrl(url: string): string {
 
     return `${baseUrl}${VIEWER_PATH_SEGMENT}${path}`;
 }
+
+function hasWebsiteUrl(websiteUrl: string): boolean {
+    return !websiteUrl || websiteUrl.trim() === '';
+}
 </script>
 
 <template>
     <div class="flex flex-col gap-y-1">
         <Dialog class="lg:max-w-xl">
             <DialogTrigger>
-                <img
-                    :src="resource.image_thumb"
-                    :alt="resource.image_name"
-                    class="aspect-square w-full rounded-lg border-b-2 bg-gray-100 object-cover group-hover:opacity-75"
+                <Avatar
+                    class="group aspect-square h-full w-full rounded-lg border-b-2 bg-gray-100 group-hover:opacity-75"
                     :class="
-                        resource.status.id == Status.NO_ASSOCIATION
+                        resource.status.id === Status.NO_ASSOCIATION
                             ? 'border-yellow-500'
-                            : resource.status.id == Status.UNPUBLISHED
+                            : resource.status.id === Status.UNPUBLISHED
                               ? 'border-destructive'
                               : 'border-success'
                     "
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                />
+                >
+                    <AvatarImage
+                        :src="resource.image_thumb"
+                        :alt="resource.image_name"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                        class="object-cover transition-opacity duration-300 ease-out group-hover:opacity-75"
+                    />
+                    <AvatarFallback
+                        class="flex h-full w-full items-center justify-center rounded-none bg-background text-foreground"
+                    >
+                        Imagem não encontrada
+                    </AvatarFallback>
+                </Avatar>
             </DialogTrigger>
             <DialogPortal>
                 <DialogOverlay class="bg-primary/10">
@@ -101,12 +115,12 @@ function createViewerUrl(url: string): string {
                             />
                         </div>
                         <DialogFooter
-                            class="flex lg:flex-row"
-                            :class="resource.status.id === Status.PUBLISHED ? 'md:justify-between' : 'justify-end'"
+                            class="flexlg:flex-row"
+                            :class="!hasWebsiteUrl(resource.website_link) ? 'md:justify-between' : 'justify-end'"
                         >
                             <div
                                 class="flex flex-row items-center gap-x-5"
-                                v-if="resource.status.id === Status.PUBLISHED"
+                                v-if="!hasWebsiteUrl(resource.website_link)"
                             >
                                 <a
                                     :href="resource.website_link"
