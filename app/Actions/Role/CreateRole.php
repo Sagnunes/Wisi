@@ -7,7 +7,7 @@ namespace App\Actions\Role;
 use App\Contracts\Services\RoleServiceInterface;
 use App\DTOs\RoleDTO;
 
-final readonly class CreateRoleAction
+final readonly class CreateRole
 {
     public function __construct(private RoleServiceInterface $service) {}
 

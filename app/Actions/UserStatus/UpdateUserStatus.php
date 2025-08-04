@@ -7,7 +7,7 @@ namespace App\Actions\UserStatus;
 use App\Contracts\Services\UserServiceInterface;
 use App\Models\User;
 
-final readonly class UpdateUserStatusAction
+final readonly class UpdateUserStatus
 {
     public function __construct(private UserServiceInterface $service) {}
 

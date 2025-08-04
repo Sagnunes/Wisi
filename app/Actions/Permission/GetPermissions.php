@@ -6,7 +6,7 @@ namespace App\Actions\Permission;
 
 use App\Contracts\Services\PermissionServiceInterface;
 
-final readonly class GetPermissionsAction
+final readonly class GetPermissions
 {
     public function __construct(private PermissionServiceInterface $service) {}
 

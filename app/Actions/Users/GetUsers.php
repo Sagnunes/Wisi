@@ -6,7 +6,7 @@ namespace App\Actions\Users;
 
 use App\Contracts\Services\UserServiceInterface;
 
-final readonly class GetUsersAction
+final readonly class GetUsers
 {
     public function __construct(private UserServiceInterface $service) {}
 

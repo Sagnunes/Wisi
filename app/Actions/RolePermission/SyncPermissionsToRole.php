@@ -7,7 +7,7 @@ namespace App\Actions\RolePermission;
 use App\Models\Role;
 use App\Services\RolePermissionService;
 
-final readonly class SyncPermissionsToRoleAction
+final readonly class SyncPermissionsToRole
 {
     public function __construct(private RolePermissionService $service) {}
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Management\Roles;
 
-use App\Actions\RolePermission\SyncPermissionsToRoleAction;
+use App\Actions\RolePermission\SyncPermissionsToRole;
 use App\Contracts\Services\PermissionServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RolePermission\UpdateRolePermissionRequest;
@@ -24,7 +24,7 @@ final class RolePermissionController extends Controller
         return Inertia::render('RolePermission/Edit', ['role' => $role, 'permissions' => $permissions]);
     }
 
-    public function update(UpdateRolePermissionRequest $request, Role $role, SyncPermissionsToRoleAction $action): \Illuminate\Http\RedirectResponse
+    public function update(UpdateRolePermissionRequest $request, Role $role, SyncPermissionsToRole $action): \Illuminate\Http\RedirectResponse
     {
         $action->handle($role, $request->validated('selectedPermissions'));
 

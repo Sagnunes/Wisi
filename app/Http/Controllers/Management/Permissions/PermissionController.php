@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Management\Permissions;
 
-use App\Actions\Permission\CreatePermissionAction;
-use App\Actions\Permission\DeletePermissionAction;
-use App\Actions\Permission\GetPermissionsAction;
-use App\Actions\Permission\UpdatePermissionAction;
+use App\Actions\Permission\CreatePermission;
+use App\Actions\Permission\DeletePermission;
+use App\Actions\Permission\GetPermissions;
+use App\Actions\Permission\UpdatePermission;
 use App\DTOs\PermissionDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Permission\StorePermissionRequest;
@@ -21,7 +21,7 @@ final class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(GetPermissionsAction $action): \Inertia\Response
+    public function index(GetPermissions $action): \Inertia\Response
     {
         return Inertia::render('Permissions/Index', ['permissions' => $action->handle()]);
     }
@@ -29,7 +29,7 @@ final class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePermissionRequest $request, CreatePermissionAction $action): RedirectResponse
+    public function store(StorePermissionRequest $request, CreatePermission $action): RedirectResponse
     {
         $createdPermission = $action->handle(PermissionDTO::fromRequest($request->validated()));
 
@@ -47,7 +47,7 @@ final class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermissionAction $action): RedirectResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission, UpdatePermission $action): RedirectResponse
     {
         $action->handle($permission, PermissionDTO::fromRequest($request->validated()));
 
@@ -57,7 +57,7 @@ final class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission, DeletePermissionAction $action): RedirectResponse
+    public function destroy(Permission $permission, DeletePermission $action): RedirectResponse
     {
         $action->handle($permission);
 

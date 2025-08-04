@@ -8,7 +8,7 @@ use App\Contracts\Services\PermissionServiceInterface;
 use App\DTOs\PermissionDTO;
 use App\Models\Permission;
 
-final readonly class UpdatePermissionAction
+final readonly class UpdatePermission
 {
     public function __construct(private PermissionServiceInterface $service) {}
 

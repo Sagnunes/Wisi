@@ -7,7 +7,7 @@ namespace App\Actions\Users;
 use App\Models\User;
 use App\Services\UserService;
 
-final readonly class DeleteUserAction
+final readonly class DeleteUser
 {
     public function __construct(private readonly UserService $service) {}
 

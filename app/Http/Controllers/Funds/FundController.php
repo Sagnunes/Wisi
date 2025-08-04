@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Funds;
 
-use App\Actions\Funds\GetDigitalObjectByFundAction;
-use App\Actions\Funds\GetFundsWithPreviewAction;
+use App\Actions\Funds\GetDigitalObjectByFund;
+use App\Actions\Funds\GetFundsWithPreview;
 use App\Http\Controllers\Controller;
 use App\Models\Fund;
 use Illuminate\Support\Arr;
@@ -13,14 +13,14 @@ use Inertia\Inertia;
 
 final class FundController extends Controller
 {
-    public function index(GetFundsWithPreviewAction $action): \Inertia\Response
+    public function index(GetFundsWithPreview $action): \Inertia\Response
     {
         $funds = $action->handle();
 
         return Inertia::render('Funds/Index', ['funds' => $funds]);
     }
 
-    public function show(Fund $fund, GetDigitalObjectByFundAction $action): \Inertia\Response
+    public function show(Fund $fund, GetDigitalObjectByFund $action): \Inertia\Response
     {
         $search = \Illuminate\Support\Facades\Request::input('search');
 

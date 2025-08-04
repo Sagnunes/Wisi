@@ -8,7 +8,7 @@ use App\Contracts\Services\FundServiceInterface;
 use App\Models\Fund;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final readonly class GetDigitalObjectByFundAction
+final readonly class GetDigitalObjectByFund
 {
     public function __construct(private FundServiceInterface $service) {}
 

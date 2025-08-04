@@ -7,7 +7,7 @@ namespace App\Actions\Funds;
 use App\Contracts\Services\FundServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-final readonly class GetFundsWithPreviewAction
+final readonly class GetFundsWithPreview
 {
     public function __construct(private FundServiceInterface $service) {}
 

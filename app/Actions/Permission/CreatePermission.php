@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Actions\Permission;
 
 use App\Contracts\Services\PermissionServiceInterface;
-use App\Models\Permission;
+use App\DTOs\PermissionDTO;
 
-final readonly class DeletePermissionAction
+final readonly class CreatePermission
 {
     public function __construct(private PermissionServiceInterface $service) {}
 
-    public function handle(Permission $permission): bool
+    public function handle(PermissionDTO $dto): PermissionDTO
     {
-        return $this->service->deletePermission($permission);
+        return $this->service->createPermission($dto);
     }
 }
