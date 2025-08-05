@@ -50,7 +50,7 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
         <Dialog class="lg:max-w-xl">
             <DialogTrigger>
                 <Avatar
-                    class="group aspect-square h-full w-full rounded-lg border-b-2 bg-gray-100 group-hover:opacity-75"
+                    class="group aspect-square h-full w-full rounded-lg border-b-2"
                     :class="
                         resource.status.id === Status.NO_ASSOCIATION
                             ? 'border-yellow-500'
@@ -82,7 +82,11 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
                                 <div class="mt-4 flex items-center justify-between gap-x-3 text-sm">
                                     <div class="flex flex-row items-center gap-x-2">
                                         <div class="font-semibold text-sidebar-primary">
-                                            {{ resource.inventory_number }}
+                                            {{
+                                                resource.inventory_number === ''
+                                                    ? resource.image_name.split('.')[0]
+                                                    : resource.inventory_number
+                                            }}
                                         </div>
                                         <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
                                             <Badge

@@ -2,7 +2,7 @@ import DataTableDropdown from '@/components/datatable-columns/shelves/data-table
 import { Button } from '@/components/ui/button';
 import { Shelve } from '@/types';
 import type { ColumnDef } from '@tanstack/vue-table';
-import { ArrowUpDown } from 'lucide-vue-next';
+import { ArrowUpDown, Check, Clock } from 'lucide-vue-next';
 import { h } from 'vue';
 
 export const shelveColumns: ColumnDef<Shelve>[] = [
@@ -33,6 +33,19 @@ export const shelveColumns: ColumnDef<Shelve>[] = [
         header: 'Criado em',
         cell: ({ row }) => row.original.created_at,
     },
+    {
+        accessorKey: 'deleted_at',
+        header: 'Resolvido em',
+        cell: ({ row }) => {
+            const deletedAt = row.original.deleted_at;
+            if (deletedAt) {
+                return h(Check, { class: 'flex h-4 w-4 text-success items-center' });
+            } else {
+                return h(Clock, { class: 'h-4 w-4 text-warning text-center' });
+            }
+        },
+    },
+
     {
         id: 'actions',
         header: '',

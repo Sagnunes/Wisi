@@ -13,7 +13,7 @@ import Status from '@/enums/Status';
 import { User } from '@/types';
 import { router, useForm } from '@inertiajs/vue3';
 import { MoreHorizontal } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
 
 const { user } = defineProps<{ user: User }>();
@@ -24,8 +24,33 @@ const form = useForm({
 });
 
 const isDeleteDialogOpen = ref(false);
-
 const isValidatedDialogOpen = ref(false);
+
+const statusActionText = computed(() => {
+    switch (user.status.id) {
+        case Status.PENDING:
+            return 'Validar';
+        case Status.ACTIVE:
+            return 'Bloquear';
+        case Status.BLOCKED:
+            return 'Validar';
+        default:
+            return 'Validar';
+    }
+});
+
+const statusActionVariant = computed(() => {
+    switch (user.status.id) {
+        case Status.PENDING:
+            return 'success';
+        case Status.ACTIVE:
+            return 'destructive';
+        case Status.BLOCKED:
+            return 'success';
+        default:
+            return 'success';
+    }
+});
 
 function openValidatedDialog() {
     isValidatedDialogOpen.value = true;
@@ -37,10 +62,11 @@ function openDeleteDialog() {
 
 function submitDelete() {
     form.delete(route('users.destroy', user.id), {
-        onSuccess: (e: object) => {
-            console.log(e.props.flash);
+        onSuccess: (response: any) => {
             isDeleteDialogOpen.value = false;
-            toast.success(e.props.flash.status);
+            if (response?.props?.flash?.status) {
+                toast.success(response.props.flash.status);
+            }
         },
         preserveScroll: true,
         preserveState: true,
@@ -50,16 +76,18 @@ function submitDelete() {
 function submitValidate(status: number) {
     form.updatedStatus = status;
     form.patch(route('users.status.update', user.id), {
-        onSuccess: (e: object) => {
+        onSuccess: (response: any) => {
             isValidatedDialogOpen.value = false;
-            toast.success(e.props.flash.status);
+            if (response?.props?.flash?.status) {
+                toast.success(response.props.flash.status);
+            }
         },
         preserveScroll: true,
         preserveState: true,
     });
 }
 
-function getNextStatus(status: Status): Status {
+function getCorrectStatus(status: Status): Status {
     switch (status) {
         case Status.PENDING:
             return Status.ACTIVE;
@@ -88,7 +116,7 @@ const goToEditUserRolesPage = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="openDeleteDialog">Apagar</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem @click="openValidatedDialog">Validar</DropdownMenuItem>
+            <DropdownMenuItem @click="openValidatedDialog">{{ statusActionText }}</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="goToEditUserRolesPage">Atribuir Perfil</DropdownMenuItem>
         </DropdownMenuContent>
@@ -100,8 +128,11 @@ const goToEditUserRolesPage = () => {
         description="Tem certeza que deseja validar o utilizador?"
     >
         <template #submitButton>
-            <Button type="submit" @click="submitValidate(getNextStatus(user.status.id))" variant="success"
-                >Apagar
+            <Button
+                type="submit"
+                @click="submitValidate(getCorrectStatus(user.status.id))"
+                :variant="statusActionVariant"
+                >{{ statusActionText }}
             </Button>
         </template>
     </Dialog>

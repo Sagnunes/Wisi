@@ -16,7 +16,7 @@ final readonly class ShelveRepository implements ShelveRepositoryInterface
     /**
      * The columns to select from the shelves table
      */
-    private const SHELVE_LIST_COLUMNS = ['id', 'name', 'slug', 'created_at', 'updated_at'];
+    private const SHELVE_LIST_COLUMNS = ['id', 'name', 'slug', 'created_at', 'updated_at', 'deleted_at'];
 
     public function __construct(private Shelve $model) {}
 
@@ -49,7 +49,6 @@ final readonly class ShelveRepository implements ShelveRepositoryInterface
 
     private function baseQuery(): Builder
     {
-
-        return $this->model->query()->select(self::SHELVE_LIST_COLUMNS)->orderBy('name');
+        return $this->model->query()->withTrashed()->select(self::SHELVE_LIST_COLUMNS)->orderBy('name');
     }
 }

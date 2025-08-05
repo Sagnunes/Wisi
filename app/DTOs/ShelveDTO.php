@@ -18,6 +18,7 @@ final readonly class ShelveDTO implements DTOInterface
         public ?int $id = null,
         public ?string $created_at = null,
         public ?string $updated_at = null,
+        public ?string $deleted_at = null,
     ) {}
 
     public static function fromRequest(array $data): self
@@ -36,6 +37,7 @@ final readonly class ShelveDTO implements DTOInterface
             id: $model->id,
             created_at: $model->created_at->format('Y-m-d'),
             updated_at: $model->updated_at->format('Y-m-d'),
+            deleted_at: $model->deleted_at ? $model->deleted_at->format('Y-m-d') : null,
         );
     }
 
@@ -47,6 +49,7 @@ final readonly class ShelveDTO implements DTOInterface
             'slug' => $this->slug,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }
