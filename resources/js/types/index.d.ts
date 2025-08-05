@@ -58,10 +58,11 @@ export interface DigitalObject {
     image_name: string;
     image_thumb: string;
     image_derivative: string;
-    fund_acronym: string;
+    fund_id: string;
     inventory_number: string;
     website_link: string;
     status: Status;
+    fund: Fund;
     created_at: string;
 }
 
