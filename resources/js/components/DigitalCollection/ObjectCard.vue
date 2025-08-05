@@ -17,14 +17,26 @@ import { Badge } from '@/components/ui/badge';
 import Status from '@/enums/Status';
 import { DigitalObject } from '@/types';
 import { DialogPortal } from 'reka-ui';
-import { PropType } from 'vue';
+import { PropType, computed } from 'vue';
 
-defineProps({
+const props = defineProps({
     resource: { type: Object as PropType<DigitalObject>, required: true },
 });
 
 const DESCRIPTIONS_PATH_PATTERN = /(?=\/descriptions)/;
 const VIEWER_PATH_SEGMENT = '/viewer';
+
+const displayInventoryNumber = computed(() => {
+    return props.resource.inventory_number === ''
+        ? props.resource.image_name.split('.')[0]
+        : props.resource.inventory_number;
+});
+
+const displayFullInventoryNumber = computed(() => {
+    return props.resource.inventory_number === ''
+        ? props.resource.fund.acronym + '/' + props.resource.image_name.split('.')[0]
+        : props.resource.inventory_number;
+});
 
 function createViewerUrl(url: string): string {
     if (!url?.trim()) {
@@ -41,7 +53,7 @@ function createViewerUrl(url: string): string {
 }
 
 function hasWebsiteUrl(websiteUrl: string): boolean {
-    return !websiteUrl || websiteUrl.trim() === '';
+    return !!websiteUrl && websiteUrl.trim() !== '';
 }
 </script>
 
@@ -82,11 +94,7 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
                                 <div class="mt-4 flex items-center justify-between gap-x-3 text-sm">
                                     <div class="flex flex-row items-center gap-x-2">
                                         <div class="font-semibold text-sidebar-primary">
-                                            {{
-                                                resource.inventory_number === ''
-                                                    ? resource.image_name.split('.')[0]
-                                                    : resource.inventory_number
-                                            }}
+                                            {{ displayInventoryNumber }}
                                         </div>
                                         <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
                                             <Badge
@@ -119,22 +127,22 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
                             />
                         </div>
                         <DialogFooter
-                            class="flexlg:flex-row"
-                            :class="!hasWebsiteUrl(resource.website_link) ? 'md:justify-between' : 'justify-end'"
+                            class="flex lg:flex-row"
+                            :class="hasWebsiteUrl(resource.website_link) ? 'md:justify-between' : 'justify-end'"
                         >
                             <div
                                 class="flex flex-row items-center gap-x-5"
-                                v-if="!hasWebsiteUrl(resource.website_link)"
+                                v-if="hasWebsiteUrl(resource.website_link)"
                             >
                                 <a
                                     :href="resource.website_link"
-                                    class="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                    class="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current dark:decoration-neutral-500"
                                     target="_blank"
                                     >Descrição</a
                                 >
                                 <a
                                     :href="createViewerUrl(resource.website_link)"
-                                    class="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                    class="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current dark:decoration-neutral-500"
                                     target="_blank"
                                     >Objeto</a
                                 >
@@ -149,17 +157,13 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
         </Dialog>
         <div class="flex flex-col items-start justify-evenly gap-y-3">
             <p class="float-end text-muted-foreground italic">
-                {{
-                    resource.inventory_number === ''
-                        ? resource.fund.acronym + '/' + resource.image_name.split('.')[0]
-                        : resource.inventory_number
-                }}
+                {{ displayFullInventoryNumber }}
             </p>
             <a
                 :href="resource.website_link"
                 class="text-xs font-medium text-primary/30 hover:text-primary"
                 target="_blank"
-                v-show="resource.website_link"
+                v-show="hasWebsiteUrl(resource.website_link)"
                 >Descrição</a
             >
         </div>
