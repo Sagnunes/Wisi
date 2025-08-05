@@ -45,7 +45,8 @@ final readonly class FundRepository implements FundRepositoryInterface
             ->where('fund_id', $fund->id)
             ->where(function ($query) use ($search): void {
                 $query->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('inventory_number', 'LIKE', "%{$search}%");
+                    ->orWhere('inventory_number', 'LIKE', "%{$search}%")
+                    ->orWhere('image_name', 'LIKE', "%{$search}%");
             })
             ->orderByDesc('created_at')
             ->paginate()
