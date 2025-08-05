@@ -148,7 +148,9 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
             </DialogPortal>
         </Dialog>
         <div class="flex flex-col items-start justify-evenly gap-y-3">
-            <p class="float-end text-muted-foreground italic">{{ resource.inventory_number }}</p>
+            <p class="float-end text-muted-foreground italic">
+                {{ resource.inventory_number === '' ? resource.image_name.split('.')[0] : resource.inventory_number }}
+            </p>
             <a
                 :href="resource.website_link"
                 class="text-xs font-medium text-primary/30 hover:text-primary"
