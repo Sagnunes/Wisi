@@ -26,13 +26,13 @@ const props = defineProps({
 const DESCRIPTIONS_PATH_PATTERN = /(?=\/descriptions)/;
 const VIEWER_PATH_SEGMENT = '/viewer';
 
-const displayInventoryNumber = computed(() => {
+const inventoryNumberOrImageName = computed(() => {
     return props.resource.inventory_number === ''
         ? props.resource.image_name.split('.')[0]
         : props.resource.inventory_number;
 });
 
-const displayFullInventoryNumber = computed(() => {
+const inventoryOrFundImageLabel = computed(() => {
     return props.resource.inventory_number === ''
         ? props.resource.fund.acronym + '/' + props.resource.image_name.split('.')[0]
         : props.resource.inventory_number;
@@ -94,7 +94,7 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
                                 <div class="mt-4 flex items-center justify-between gap-x-3 text-sm">
                                     <div class="flex flex-row items-center gap-x-2">
                                         <div class="font-semibold text-sidebar-primary">
-                                            {{ displayInventoryNumber }}
+                                            {{ inventoryNumberOrImageName }}
                                         </div>
                                         <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
                                             <Badge
@@ -130,10 +130,7 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
                             class="flex lg:flex-row"
                             :class="hasWebsiteUrl(resource.website_link) ? 'md:justify-between' : 'justify-end'"
                         >
-                            <div
-                                class="flex flex-row items-center gap-x-5"
-                                v-if="hasWebsiteUrl(resource.website_link)"
-                            >
+                            <div class="flex flex-row items-center gap-x-5" v-if="hasWebsiteUrl(resource.website_link)">
                                 <a
                                     :href="resource.website_link"
                                     class="cursor-pointer text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current dark:decoration-neutral-500"
@@ -157,7 +154,7 @@ function hasWebsiteUrl(websiteUrl: string): boolean {
         </Dialog>
         <div class="flex flex-col items-start justify-evenly gap-y-3">
             <p class="float-end text-muted-foreground italic">
-                {{ displayFullInventoryNumber }}
+                {{ inventoryOrFundImageLabel }}
             </p>
             <a
                 :href="resource.website_link"
