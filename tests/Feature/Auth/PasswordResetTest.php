@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
-use Database\Seeders\DatabaseSeeder;
 
 use function Pest\Laravel\seed;
 

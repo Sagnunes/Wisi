@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Contracts\Repositories\PermissionRepositoryInterface;
 use App\Contracts\Repositories\ShelveRepositoryInterface;
-use App\Contracts\Services\PermissionServiceInterface;
 use App\Contracts\Services\ShelveServiceInterface;
-use App\DTOs\PermissionDTO;
 use App\DTOs\ShelveDTO;
-use App\Models\Permission;
 use App\Models\Shelve;
 use App\Traits\HasPaginationFormatting;
 
@@ -18,9 +14,7 @@ final readonly class ShelveService implements ShelveServiceInterface
 {
     use HasPaginationFormatting;
 
-    public function __construct(private ShelveRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private ShelveRepositoryInterface $repository) {}
 
     public function getShelve(int $id): ShelveDTO
     {
@@ -30,7 +24,7 @@ final readonly class ShelveService implements ShelveServiceInterface
     public function getShelves(): array
     {
         return $this->repository->all()
-            ->map(fn(Shelve $shelve): ShelveDTO => $this->toDto($shelve))
+            ->map(fn (Shelve $shelve): ShelveDTO => $this->toDto($shelve))
             ->toArray();
     }
 

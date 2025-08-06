@@ -49,5 +49,3 @@ Route::middleware(['auth', 'verified'])->prefix('gestao-depositos')->group(funct
         Route::get('/{shelve:slug}/editar', [ShelveController::class, 'edit'])->name('shelves.edit');
     });
 });
-
-

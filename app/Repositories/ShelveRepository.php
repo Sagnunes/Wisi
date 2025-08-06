@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\PermissionRepositoryInterface;
 use App\Contracts\Repositories\ShelveRepositoryInterface;
-use App\Models\Permission;
 use App\Models\Shelve;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

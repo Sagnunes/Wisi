@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Shelves;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateShelvesRequest extends FormRequest
+final class UpdateShelvesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

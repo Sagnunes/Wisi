@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Contracts\Services;
 
-use App\DTOs\PermissionDTO;
 use App\DTOs\ShelveDTO;
-use App\Models\Permission;
 use App\Models\Shelve;
 
 interface ShelveServiceInterface

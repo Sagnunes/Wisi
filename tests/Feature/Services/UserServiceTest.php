@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 use App\Models\Role;
 use App\Models\User;
-use App\Services\UserService;
 use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 
 use function Pest\Laravel\seed;
 
 beforeEach(function () {
     // Seed the database to ensure required records exist
-    seed(\Database\Seeders\DatabaseSeeder::class);
+    seed(Database\Seeders\DatabaseSeeder::class);
 
     // Clear any existing role_user relationships
     DB::table('role_user')->truncate();
@@ -39,7 +39,7 @@ test('syncRoles assigns roles to a user', function () {
     foreach ($roleIds as $roleId) {
         $this->assertDatabaseHas('role_user', [
             'user_id' => $user->id,
-            'role_id' => $roleId
+            'role_id' => $roleId,
         ]);
     }
 });
@@ -71,7 +71,7 @@ test('syncRoles removes previous roles when syncing new ones', function () {
     foreach ($newRoleIds as $roleId) {
         $this->assertDatabaseHas('role_user', [
             'user_id' => $user->id,
-            'role_id' => $roleId
+            'role_id' => $roleId,
         ]);
     }
 
@@ -79,7 +79,7 @@ test('syncRoles removes previous roles when syncing new ones', function () {
     foreach ($initialRoleIds as $roleId) {
         $this->assertDatabaseMissing('role_user', [
             'user_id' => $user->id,
-            'role_id' => $roleId
+            'role_id' => $roleId,
         ]);
     }
 });

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 
@@ -15,7 +17,7 @@ test('login screen can be rendered', function () {
 });
 
 test('users with a active status can authenticate using the login screen', function () {
-    $user = User::factory()->create(['status_id' => \App\Enums\Status::ACTIVE]);
+    $user = User::factory()->create(['status_id' => App\Enums\Status::ACTIVE]);
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -27,7 +29,7 @@ test('users with a active status can authenticate using the login screen', funct
 });
 
 test('users with a pending status cant authenticate using the login screen', function () {
-    $user = User::factory()->create(['status_id' => \App\Enums\Status::PENDING]);
+    $user = User::factory()->create(['status_id' => App\Enums\Status::PENDING]);
 
     $this->post('/login', [
         'email' => $user->email,
@@ -38,7 +40,7 @@ test('users with a pending status cant authenticate using the login screen', fun
 });
 
 test('users with a blocked status cant authenticate using the login screen', function () {
-    $user = User::factory()->create(['status_id' => \App\Enums\Status::BLOCKED]);
+    $user = User::factory()->create(['status_id' => App\Enums\Status::BLOCKED]);
 
     $response = $this->post('/login', [
         'email' => $user->email,

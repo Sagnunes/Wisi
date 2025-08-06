@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\DTOs;
 
 use App\Contracts\DTO\DTOInterface;
-use App\Models\Permission;
 use App\Models\Shelve;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

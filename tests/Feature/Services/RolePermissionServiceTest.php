@@ -11,7 +11,7 @@ use function Pest\Laravel\seed;
 
 beforeEach(function () {
     // Seed the database to ensure required records exist
-    seed(\Database\Seeders\DatabaseSeeder::class);
+    seed(Database\Seeders\DatabaseSeeder::class);
 
     // Clear any existing role_permission relationships
     DB::table('role_permission')->truncate();
@@ -37,7 +37,7 @@ test('syncPermissions assigns permissions to a role', function () {
     foreach ($permissionIds as $permissionId) {
         $this->assertDatabaseHas('role_permission', [
             'role_id' => $role->id,
-            'permission_id' => $permissionId
+            'permission_id' => $permissionId,
         ]);
     }
 });
@@ -69,7 +69,7 @@ test('syncPermissions removes previous permissions when syncing new ones', funct
     foreach ($newPermissionIds as $permissionId) {
         $this->assertDatabaseHas('role_permission', [
             'role_id' => $role->id,
-            'permission_id' => $permissionId
+            'permission_id' => $permissionId,
         ]);
     }
 
@@ -77,7 +77,7 @@ test('syncPermissions removes previous permissions when syncing new ones', funct
     foreach ($initialPermissionIds as $permissionId) {
         $this->assertDatabaseMissing('role_permission', [
             'role_id' => $role->id,
-            'permission_id' => $permissionId
+            'permission_id' => $permissionId,
         ]);
     }
 });
@@ -93,7 +93,7 @@ test('attachPermission adds a single permission to a role', function () {
     // Verify the permission was attached in the database
     $this->assertDatabaseHas('role_permission', [
         'role_id' => $role->id,
-        'permission_id' => $permission->id
+        'permission_id' => $permission->id,
     ]);
 });
 
@@ -113,7 +113,7 @@ test('detachPermission removes a single permission from a role', function () {
     // Verify the permission was detached in the database
     $this->assertDatabaseMissing('role_permission', [
         'role_id' => $role->id,
-        'permission_id' => $permissionToDetach->id
+        'permission_id' => $permissionToDetach->id,
     ]);
 
     // Verify the other permissions are still attached
@@ -121,7 +121,7 @@ test('detachPermission removes a single permission from a role', function () {
     foreach ($permissions->skip(1) as $permission) {
         $this->assertDatabaseHas('role_permission', [
             'role_id' => $role->id,
-            'permission_id' => $permission->id
+            'permission_id' => $permission->id,
         ]);
     }
 });

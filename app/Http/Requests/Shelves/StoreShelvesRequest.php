@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Shelves;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreShelvesRequest extends FormRequest
+final class StoreShelvesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

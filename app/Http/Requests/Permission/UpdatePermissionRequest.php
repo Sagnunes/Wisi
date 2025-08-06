@@ -25,6 +25,7 @@ final class UpdatePermissionRequest extends FormRequest
     public function rules(): array
     {
         $permission = $this->route('permission');
+
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('permissions')->ignore($permission->id)],
             'description' => 'nullable|string|max:255',

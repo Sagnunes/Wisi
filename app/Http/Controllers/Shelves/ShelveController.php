@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Shelves;
 
 use App\Actions\Shelves\CreateShelve;
@@ -11,10 +13,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Shelves\StoreShelvesRequest;
 use App\Http\Requests\Shelves\UpdateShelvesRequest;
 use App\Models\Shelve;
-use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
-class ShelveController extends Controller
+final class ShelveController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,7 +34,6 @@ class ShelveController extends Controller
 
         return to_route('shelves.index')->with(['status' => 'Prateleira criada com sucesso.', 'data' => $createdShelve]);
     }
-
 
     /**
      * Show the form for editing the specified resource.

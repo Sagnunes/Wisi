@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
-
-use Database\Seeders\DatabaseSeeder;
 
 use function Pest\Laravel\seed;
 

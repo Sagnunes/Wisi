@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Hash;
 
 use function Pest\Laravel\seed;
 

@@ -10,7 +10,7 @@ use function Pest\Laravel\seed;
 
 beforeEach(function () {
     // Seed the database to ensure Status records exist
-    seed(\Database\Seeders\DatabaseSeeder::class);
+    seed(Database\Seeders\DatabaseSeeder::class);
 
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
@@ -36,7 +36,7 @@ test('user can view permissions index page', function () {
 test('user can create a new permission', function () {
     $permissionData = [
         'name' => 'Test Permission',
-        'description' => 'Test Permission Description'
+        'description' => 'Test Permission Description',
     ];
 
     // Submit the form to create a new permission
@@ -46,7 +46,7 @@ test('user can create a new permission', function () {
     $this->assertDatabaseHas('permissions', [
         'name' => 'Test Permission',
         'slug' => Str::slug('Test Permission'),
-        'description' => 'Test Permission Description'
+        'description' => 'Test Permission Description',
     ]);
 
     // Assert the user is redirected to the index page with a success message
@@ -61,7 +61,7 @@ test('user cannot create a permission with duplicate name', function () {
     // Try to create another permission with the same name
     $response = $this->post(route('permissions.store'), [
         'name' => 'Existing Permission',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ]);
 
     // Assert validation fails
@@ -96,7 +96,7 @@ test('user can update a permission', function () {
     // Update the permission
     $response = $this->patch(route('permissions.update', $permission), [
         'name' => 'New Name',
-        'description' => 'Updated Description'
+        'description' => 'Updated Description',
     ]);
 
     // Refresh the model from the database
@@ -117,10 +117,10 @@ test('user cannot update a permission with duplicate name', function () {
 
     // Try to update the second permission with the name of the first
     $response = $this->from(route('permissions.edit', $permission))
-                     ->patch(route('permissions.update', $permission), [
-                         'name' => 'Existing Permission',
-                         'description' => 'Updated Description'
-                     ]);
+        ->patch(route('permissions.update', $permission), [
+            'name' => 'Existing Permission',
+            'description' => 'Updated Description',
+        ]);
 
     // Assert validation fails and redirects back
     $response->assertRedirect(route('permissions.edit', $permission));
@@ -136,7 +136,7 @@ test('user can delete a permission', function () {
 
     // Assert the permission was deleted
     $this->assertDatabaseMissing('permissions', [
-        'id' => $permission->id
+        'id' => $permission->id,
     ]);
 
     // Assert the user is redirected back with a success message

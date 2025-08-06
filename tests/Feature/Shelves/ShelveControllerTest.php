@@ -10,7 +10,7 @@ use function Pest\Laravel\seed;
 
 beforeEach(function () {
     // Seed the database to ensure Status records exist
-    seed(\Database\Seeders\DatabaseSeeder::class);
+    seed(Database\Seeders\DatabaseSeeder::class);
 
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
@@ -35,7 +35,7 @@ test('user can view shelves index page', function () {
 
 test('user can create a new shelve', function () {
     $shelveData = [
-        'name' => 'Test Shelve'
+        'name' => 'Test Shelve',
     ];
 
     // Submit the form to create a new shelve
@@ -44,7 +44,7 @@ test('user can create a new shelve', function () {
     // Assert the shelve was created in the database
     $this->assertDatabaseHas('shelves', [
         'name' => 'Test Shelve',
-        'slug' => Str::slug('Test Shelve')
+        'slug' => Str::slug('Test Shelve'),
     ]);
 
     // Assert the user is redirected to the index page with a success message
@@ -58,7 +58,7 @@ test('user cannot create a shelve with duplicate name', function () {
 
     // Try to create another shelve with the same name
     $response = $this->post(route('shelves.store'), [
-        'name' => 'Existing Shelve'
+        'name' => 'Existing Shelve',
     ]);
 
     // Assert validation fails
@@ -92,7 +92,7 @@ test('user can update a shelve', function () {
 
     // Update the shelve
     $response = $this->patch(route('shelves.update', $shelve), [
-        'name' => 'New Name'
+        'name' => 'New Name',
     ]);
 
     // Refresh the model from the database
@@ -112,9 +112,9 @@ test('user cannot update a shelve with duplicate name', function () {
 
     // Try to update the second shelve with the name of the first
     $response = $this->from(route('shelves.edit', $shelve))
-                     ->patch(route('shelves.update', $shelve), [
-                         'name' => 'Existing Shelve'
-                     ]);
+        ->patch(route('shelves.update', $shelve), [
+            'name' => 'Existing Shelve',
+        ]);
 
     // Assert the shelve name was not updated
     $shelve->refresh();
@@ -134,7 +134,7 @@ test('user can delete a shelve', function () {
 
     // Assert the shelve was soft deleted
     $this->assertSoftDeleted('shelves', [
-        'id' => $shelve->id
+        'id' => $shelve->id,
     ]);
 
     // Assert the user is redirected back with a success message

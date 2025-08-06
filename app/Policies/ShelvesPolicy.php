@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Shelve;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
-class ShelvesPolicy
+final class ShelvesPolicy
 {
     /**
      * Determine whether the user can view any models.

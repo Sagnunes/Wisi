@@ -10,9 +10,7 @@ use App\Models\Shelve;
 
 final readonly class UpdateShelve
 {
-    public function __construct(private ShelveServiceInterface $service)
-    {
-    }
+    public function __construct(private ShelveServiceInterface $service) {}
 
     public function handle(Shelve $shelve, ShelveDTO $dto): ShelveDTO
     {

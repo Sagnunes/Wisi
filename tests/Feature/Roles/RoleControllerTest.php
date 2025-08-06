@@ -10,7 +10,7 @@ use function Pest\Laravel\seed;
 
 beforeEach(function () {
     // Seed the database to ensure Status records exist
-    seed(\Database\Seeders\DatabaseSeeder::class);
+    seed(Database\Seeders\DatabaseSeeder::class);
 
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
@@ -36,7 +36,7 @@ test('user can view roles index page', function () {
 test('user can create a new role', function () {
     $roleData = [
         'name' => 'Test Role',
-        'description' => 'Test Role Description'
+        'description' => 'Test Role Description',
     ];
 
     // Submit the form to create a new role
@@ -46,7 +46,7 @@ test('user can create a new role', function () {
     $this->assertDatabaseHas('roles', [
         'name' => 'Test Role',
         'slug' => Str::slug('Test Role'),
-        'description' => 'Test Role Description'
+        'description' => 'Test Role Description',
     ]);
 
     // Assert the user is redirected to the index page with a success message
@@ -61,7 +61,7 @@ test('user cannot create a role with duplicate name', function () {
     // Try to create another role with the same name
     $response = $this->post(route('roles.store'), [
         'name' => 'Existing Role',
-        'description' => 'Test Description'
+        'description' => 'Test Description',
     ]);
 
     // Assert validation fails
@@ -96,7 +96,7 @@ test('user can update a role', function () {
     // Update the role
     $response = $this->patch(route('roles.update', $role), [
         'name' => 'New Name',
-        'description' => 'Updated Description'
+        'description' => 'Updated Description',
     ]);
 
     // Refresh the model from the database
@@ -117,10 +117,10 @@ test('user cannot update a role with duplicate name', function () {
 
     // Try to update the second role with the name of the first
     $response = $this->from(route('roles.edit', $role))
-                     ->patch(route('roles.update', $role), [
-                         'name' => 'Existing Role',
-                         'description' => 'Updated Description'
-                     ]);
+        ->patch(route('roles.update', $role), [
+            'name' => 'Existing Role',
+            'description' => 'Updated Description',
+        ]);
 
     // Assert validation fails and redirects back
     $response->assertRedirect(route('roles.edit', $role));
@@ -136,7 +136,7 @@ test('user can delete a role', function () {
 
     // Assert the role was deleted
     $this->assertDatabaseMissing('roles', [
-        'id' => $role->id
+        'id' => $role->id,
     ]);
 
     // Assert the user is redirected back with a success message
