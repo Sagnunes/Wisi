@@ -15,6 +15,8 @@ class Shelve extends Model
 
     protected array $dates = ['deleted_at'];
 
+    protected $fillable = ['name', 'slug'];
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',
         'deleted_at' => 'datetime:Y-m-d',
